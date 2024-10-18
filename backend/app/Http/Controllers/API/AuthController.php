@@ -6,17 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
-class AuthController extends Controller
+class AuthController extends BaseController
 {
     /**
      * Register api
      *
      * @return \Illuminate\Http\Response
      */
-    public function register(Request $request): JsonResponse
+    public function register(Request $request): JsonResponse|Response
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
@@ -26,24 +29,21 @@ class AuthController extends Controller
         ]);
 
         if($validator->fails()){
-            $response['success'] = false;
-            $response['message'] = 'Validation Error';
-            $response['data'] = $validator->errors();
-            return response()->json($response);
+            return $this->sendError('Validation Error.', $validator->errors());
         }
 
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
+        $customTokenString = Str::random(64);
+        $user->tokens()->create([
+            'name' => 'auth_token',
+            'token' => $customTokenString,
+        ]);
+        $response['token'] =  $customTokenString;
+        $response['name'] =  $user->name;
 
-        $success['token'] =  $user->createToken('auth_token')->plainTextToken;
-        $success['name'] =  $user->name;
-
-        $response['success'] = true;
-        $response['message'] = 'Successfully Logged In';
-        $response['data'] = $success;
-
-        return response()->json($response);
+        return $this->sendResponse($response, 'Successfully Logged In');
     }
 
     /**
@@ -51,45 +51,36 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function login(Request $request): JsonResponse
+    public function login(Request $request): JsonResponse|Response
     {
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user();
-            $success['token'] =  $user->createToken('auth_token')->plainTextToken;
             $success['name'] =  $user->name;
 
-            $response['success'] = true;
-            $response['message'] = 'Login successfully!';
-            $response['data'] = $success;
+            $customTokenString = Str::random(64);
+            $user->tokens()->create([
+                'name' => 'auth_token',
+                'token' => $customTokenString,
+            ]);
 
-            return response()->json($response);
+            $success['token'] =  $customTokenString;
+
+            return $this->sendResponse($success, 'User login successfully.');
         }
         else{
-            $response['success'] = false;
-            $response['message'] = 'Not Authorized!';
-            // $response['data'] = ;
-
-            return response()->json($response);
+            return $this->sendError("Not Authorized!");
         }
     }
 
     public function logout(Request $request)
     {
-        $user = Auth::user();
-        if ($user) {
-            $user->tokens()->delete();
-        }
-
-        $response['success'] = true;
-        $response['message'] = 'Successfully logged out';
-        return response()->json($response);
+        $request->user()->currentAccessToken()->delete();
+        return $this->sendResponse('Logged Out','Successfully logged out');
     }
 
 
     public function users(){
-        $response['success'] = true;
-        $response['message'] = 'Users list';
-        $response['data'] = User::all();
-        return response()->json($response);
+        $response = User::all()->toArray();
+        return $this->sendResponse('Successfully fetched users!',$response);
     }
 }
