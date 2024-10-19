@@ -11,7 +11,7 @@ class BaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function sendResponse($result, $message)
+    public function sendResponse($result, $message= "✨ Everything is awesome! 🚀")
     {
         $response = [
             'success' => true,
@@ -22,6 +22,23 @@ class BaseController extends Controller
         return response()->json($response, 200);
     }
 
+        /**
+     * Success response for paginated data.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function sendPaginatedResponse($result, $meta, $message = "✨ Everything is awesome! 🚀")
+    {
+        $response = [
+            'success' => true,
+            'message' => $message,
+            'data'    => $result,
+            'meta'    => $meta, // Include pagination metadata
+        ];
+
+        return response()->json($response, 200);
+    }
+    
     /**
      * return error response.
      *
