@@ -17,7 +17,7 @@ class ProductController extends BaseController implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            // new Middleware('auth', only: ['store'])
+            // new Middleware('auth:sanctum', only: ['store','update'])
         ];
     }
 
@@ -62,7 +62,7 @@ class ProductController extends BaseController implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update($id, ProductRequest $request)
+    public function update(ProductRequest $request, $id)
     {
         try {
             $product = Product::find($id);

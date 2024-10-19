@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductRequest extends FormRequest
@@ -21,7 +22,11 @@ class ProductRequest extends FormRequest
      */
     public function rules(): array
     {
-        $id = $this->product ? $this->product->id : null;
+        // Retrieve product from route parameter or request attribute (depending on how your routes are set up)
+        $product = $this->route('product') ?? $this->product;
+
+        // Ensure product is an object before accessing 'id'
+        $id = $product instanceof Product ? $product->id : null;
         return [
             'name' => 'required|string|max:200|unique:products,name,' . $id,
             'description' => 'nullable|string',
