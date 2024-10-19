@@ -80,7 +80,7 @@ class AuthController extends BaseController
 
 
     public function users(){
-        $response = User::all()->toArray();
-        return $this->sendResponse('Successfully fetched users!',$response);
+        $response = User::all();
+        return $this->sendResponse($response, 'Successfully fetched users!');
     }
 }
