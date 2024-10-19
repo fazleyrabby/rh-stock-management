@@ -26,7 +26,8 @@ class ProductController extends BaseController implements HasMiddleware
      */
     public function index()
     {
-        $products = Product::query()->paginate(config('app.pagination.limit'));
+        // config('app.pagination.limit')
+        $products = Product::query()->paginate(5);
         $productCollection = ProductResource::collection($products);
         return $this->sendPaginatedResponse(
             $productCollection,
