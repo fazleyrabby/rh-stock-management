@@ -45,13 +45,13 @@
                                 <span>{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="mb-3">
+                        <d class="mb-3">
                             <label class="form-label">Email address</label>
                             <input type="email" class="form-control" placeholder="Enter email" name="email">
                             @error('email')
                                 <span>{{ $message }}</span>
                             @enderror
-                        </div>
+                        </d
                         <div class="mb-3">
                             <label class="form-label">Password</label>
                             <div class="input-group input-group-flat">
