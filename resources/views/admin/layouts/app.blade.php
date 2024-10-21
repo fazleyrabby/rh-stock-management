@@ -17,6 +17,9 @@
         body {
             font-feature-settings: "cv03", "cv04", "cv11";
         }
+        .table-responsive{
+            min-height: 200px;
+        }
       </style>
     @stack('styles')
 </head>
