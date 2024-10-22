@@ -11,7 +11,12 @@ class LoginController extends Controller
 {
     public function loginForm()
     {
-        return view('auth.login');
+        $user = (object)[];
+        if(env('APP_ENV') == 'local'){
+            $user->email = 'test@gmail.com';
+            $user->password = '123456';
+        }
+        return view('auth.login', compact('user'));
     }
 
     /**

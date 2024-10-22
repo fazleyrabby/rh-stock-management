@@ -55,24 +55,30 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-body border-bottom py-3">
+                  
                   <div class="d-flex">
                     <div class="text-secondary">
                       Show
                       <div class="mx-2 d-inline-block">
-                        <input type="text" class="form-control form-control-sm" value="8" size="3" aria-label="Invoices count">
+                        <select name="limit" onchange="updateData(this)" data-route="{{ route('admin.products.index') }}"> 
+                          <option value="5" @selected(request()->limit == 5)>5</option>
+                          <option value="10" @selected(request()->limit == 10)>10</option>
+                          <option value="20" @selected(request()->limit == 20)>20</option>
+                        </select>
                       </div>
-                      entries
+                      products
                     </div>
                     <div class="ms-auto text-secondary">
                       Search:
                       <div class="ms-2 d-inline-block">
                         <form action="">
-                          <input type="text" class="form-control form-control-sm" aria-label="Search Products" name="q">
-                          {{-- <button type="submit">Search</button> --}}
+                          <input type="text" class="form-control form-control-sm" aria-label="Search Products" name="q" value="{{ request()->q }}">
+                          <input type="hidden" name="limit" id="limitInput" value="{{ request()->limit }}">
                         </form>
                       </div>
                     </div>
                   </div>
+                
                 </div>
                 <div class="table-responsive">
                   <table class="table card-table table-vcenter text-nowrap datatable">
@@ -107,9 +113,18 @@
                               <a class="dropdown-item" href="{{ route('admin.products.edit', $product->id) }}">
                                 Edit
                               </a>
-                              <a class="dropdown-item text-danger" href="#">
+                              {{-- <a class="dropdown-item text-danger" href="#">
                                 Delete
-                              </a>
+                              </a> --}}
+
+                              <form class="delete_form"
+                                  onsubmit="return confirmDelete(event, this)"
+                                  action="{{ route('admin.products.destroy', $product->id) }}"
+                                  method="post">
+                                  @csrf
+                                  @method('delete')
+                                  <button type="submit" class="text-danger dropdown-item delete-btn">Delete</button>
+                              </form>
                             </div>
                           </span>
                         </td>
@@ -129,3 +144,5 @@
       </div>
      
 @endsection
+
+

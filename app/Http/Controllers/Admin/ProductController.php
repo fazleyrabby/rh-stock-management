@@ -5,85 +5,54 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
+use App\Services\ProductService;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controllers\HasMiddleware;
 
-class ProductController extends Controller implements HasMiddleware
+class ProductController extends Controller
 {
-    /**
-     * Get the middleware that should be assigned to the controller.
-     */
-    public static function middleware(): array
+    use AuthorizesRequests;
+    public function index(Request $request, ProductService $productService)
     {
-        return [
-            // new Middleware('auth:sanctum', only: ['store','update'])
-        ];
-    }
-
-
-    public function index(Request $request)
-    {
-        $searchQuery = $request->q;
-        $query = Product::query();
-        $query->when($searchQuery, function ($q) use ($searchQuery) {
-            return $q->where(function ($subQuery) use ($searchQuery) {
-                return $subQuery->where('name', 'like', '%'.$searchQuery.'%')
-                                ->orWhere('description', 'like', '%'.$searchQuery.'%')
-                                ->orWhere('id', 'like', '%'.$searchQuery.'%');
-            });
-        });
-        $products = $query->paginate(10)->through(function($product) {
-            $product->created_at = $product->created_at->diffForHumans();
-            $product->description = str()->limit($product->description, 20, '...');
-            return $product;
-        });
+        $products = $productService->getPaginatedProducts($request->all());
         return view('admin.products.index', compact('products'));
     }
 
     public function edit(Product $product)
     {
+        $this->authorize('create', Product::class);
         return view('admin.products.edit', compact('product'));
     }
 
     public function store(ProductRequest $request)
     {
-        try {
-            $product = Product::create($request->validated());
-            return $this->sendResponse(new ProductResource($product), 'Product created successfully.');
-        } catch (\Exception $e) {
-            return $this->sendError('Error creating product: ' . $e->getMessage(), [], 500);
-        }
+        dd(route('admin.products.create'));
+        $this->authorize('create', Product::class);
+        Product::create($request->validated());
+        return redirect()->route('admin.products.create')->with(['success' => 'Successfully created!']);
     }
 
 
     public function show($id)
     {
         $product = Product::find($id);
-        if (!$product) {
-            return $this->sendError('Product not found');
-        }
-        return $this->sendResponse(new ProductResource($product));
+        return view('admin.product.show', compact('product'));
     }
 
     public function update(ProductRequest $request, $id)
     {
+        $this->authorize('create', Product::class);
         $product = Product::findOrFail($id);
         $product->update($request->validated());
-        return redirect()->route('admin.products.index')->with(['success' => true, 'message' => 'Successfully updated!']);
+        return redirect()->route('admin.products.index')->with(['success' => 'Successfully updated!']);
     }
 
 
     public function destroy($id)
     {
-        try {
-            $product = Product::find($id);
-            if(!$product){
-                return $this->sendError('Product Not found');
-            }
-            $product->delete();
-            return $this->sendResponse('', 'Product deleted successfully.');
-        } catch (\Exception $e) {
-            return $this->sendError('Error deleting product: ' . $e->getMessage());
-        }
+        $this->authorize('delete', Product::class);
+        $product = Product::findOrFail($id);
+        $product->delete();
+        return redirect()->route('admin.products.index')->with(['success' => 'Successfully deleted!']);
     }
 }
