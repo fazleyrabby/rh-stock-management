@@ -1,9 +1,5 @@
-<!-- resources/views/admin/dashboard.blade.php -->
-
 @extends('admin.layouts.app')
-
-@section('title', 'Admin Dashboard')
-
+@section('title', 'Product List')
 @section('content')
     <!-- Page header -->
     <div class="page-header d-print-none">
@@ -21,7 +17,7 @@
                 <!-- Page title actions -->
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <a href="{{ route('admin.products.create') }}" class="btn btn-primary d-none d-sm-inline-block" >
+                        <a href="{{ route('admin.products.create') }}" class="btn btn-primary">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                                 stroke-linecap="round" stroke-linejoin="round">
@@ -31,17 +27,7 @@
                             </svg>
                             Create new product
                         </a>
-                        <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
-                            data-bs-target="#modal-report" aria-label="Create new report">
-                            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
-                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M12 5l0 14" />
-                                <path d="M5 12l14 0" />
-                            </svg>
-                        </a>
+                        <button data-route="{{ route('admin.products.bulk_delete') }}" type="button" id="bulk-delete-btn" class="btn btn-danger" disabled>Delete Selected</button>
                     </div>
                 </div>
             </div>
@@ -82,7 +68,7 @@
                   <table class="table card-table table-vcenter text-nowrap datatable">
                     <thead>
                       <tr>
-                        <th class="w-1"><input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select all invoices"></th>
+                        <th class="w-1"><input class="form-check-input m-0 align-middle" id="select-all-items" type="checkbox" aria-label="Select all invoices"></th>
                         <th class="w-1">No.
                           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-sm icon-thick" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 15l6 -6l6 6" /></svg>
                         </th>
@@ -97,9 +83,9 @@
                     <tbody>
                     @foreach ($products as $product)
                     <tr>
-                        <td><input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice"></td>
+                        <td><input class="form-check-input m-0 align-middle selected-item" type="checkbox" value="{{ $product->id }}" aria-label="Select invoice"></td>
                         <td><span class="text-secondary">{{ $product->id }}</span></td>
-                        <td><a href="invoice.html" class="text-reset" tabindex="-1">{{ $product->name }}</a></td>
+                        <td><a href="{{ route('admin.products.show', $product->id) }}" class="text-reset" tabindex="-1">{{ $product->name }}</a></td>
                         <td>{{ $product->description }}</td>
                         <td>{{ $product->price }}</td>
                         <td>{{ $product->quantity }}</td>
@@ -111,12 +97,7 @@
                               <a class="dropdown-item" href="{{ route('admin.products.edit', $product->id) }}">
                                 Edit
                               </a>
-                              {{-- <a class="dropdown-item text-danger" href="#">
-                                Delete
-                              </a> --}}
-
-                              <form class="delete_form"
-                                  onsubmit="return confirmDelete(event, this)"
+                              <form onsubmit="return confirmDelete(event, this)"
                                   action="{{ route('admin.products.destroy', $product->id) }}"
                                   method="post">
                                   @csrf
@@ -133,14 +114,12 @@
                 </div>
                 <div class="card-footer">
                   {{ $products->links('pagination::bootstrap-5') }}
-                  
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-     
 @endsection
 
 

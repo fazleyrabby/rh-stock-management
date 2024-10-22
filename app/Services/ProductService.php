@@ -10,7 +10,7 @@ class ProductService
     public function getPaginatedProducts($params){
         $query = Product::query();
         $searchQuery = $params['q'] ?? null;
-        $limit = $params['limit'] ?? 10;
+        $limit = $params['limit'] ?? config('app.pagination.limit');
         $query->when($searchQuery, function ($q) use ($searchQuery) {
             return $q->where(function ($subQuery) use ($searchQuery) {
                 return $subQuery->where('name', 'like', '%'.$searchQuery.'%')

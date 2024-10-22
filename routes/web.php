@@ -21,6 +21,7 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function(){
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::delete('products/bulk-delete', [ProductController::class, 'bulkDelete'])->name('products.bulk_delete');
     Route::resource('products', ProductController::class)->names('products');
 });
 
