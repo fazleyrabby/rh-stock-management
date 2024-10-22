@@ -18,7 +18,7 @@ class ProductService
                                 ->orWhere('id', 'like', '%'.$searchQuery.'%');
             });
         });
-        $products = $query->paginate($limit)->through(function($product) {
+        $products = $query->orderBy('id', 'desc')->paginate($limit)->through(function($product) {
             $product->created_at = $product->created_at->diffForHumans();
             $product->description = str()->limit($product->description, 20, '...');
             return $product;

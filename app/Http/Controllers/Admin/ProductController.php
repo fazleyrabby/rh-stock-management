@@ -18,6 +18,11 @@ class ProductController extends Controller
         return view('admin.products.index', compact('products'));
     }
 
+    public function create()
+    {
+        return view('admin.products.create');
+    }
+
     public function edit(Product $product)
     {
         $this->authorize('create', Product::class);
@@ -25,8 +30,7 @@ class ProductController extends Controller
     }
 
     public function store(ProductRequest $request)
-    {
-        dd(route('admin.products.create'));
+    {;
         $this->authorize('create', Product::class);
         Product::create($request->validated());
         return redirect()->route('admin.products.create')->with(['success' => 'Successfully created!']);
