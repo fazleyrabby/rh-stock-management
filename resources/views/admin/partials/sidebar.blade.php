@@ -165,9 +165,7 @@
             <div class="dropdown-menu">
               <div class="dropdown-menu-columns">
                 <div class="dropdown-menu-column">
-                  <a class="dropdown-item" href="#">
-                    Single link
-                  </a>
+                  <a class="dropdown-item" href="/supplier">Suppliers</a>
                   <div class="dropend">
                     <a class="dropdown-item dropdown-toggle" href="#sidebar-authentication" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false" >
                       Dropdown link
