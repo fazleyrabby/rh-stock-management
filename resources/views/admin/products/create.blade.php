@@ -38,12 +38,24 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3 row">
-                            <label class="col-3 col-form-label required">Product Name</label>
+                            <label class="col-3 col-form-label required">Product title</label>
                             <div class="col">
                                 <input type="text" class="form-control" aria-describedby="emailHelp"
-                                    placeholder="Product Name" name="name" value="{{ old('name') }}">
+                                    placeholder="Product Name" name="title" value="{{ old('title') }}">
                                 <small class="form-hint">
-                                    @error('name')
+                                    @error('title')
+                                        <div class="text-danger mt-2">{{ $message }}</div>
+                                    @enderror
+                                </small>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-3 col-form-label required">Product Sku</label>
+                            <div class="col">
+                                <input type="text" class="form-control" aria-describedby=""
+                                    placeholder="Product Sku" name="sku" value="{{ old('sku') }}">
+                                <small class="form-hint">
+                                    @error('sku')
                                         <div class="text-danger mt-2">{{ $message }}</div>
                                     @enderror
                                 </small>
@@ -54,6 +66,9 @@
                             <div class="col">
                                 <input type="text" class="form-control" name="price" placeholder="price" value="">
                                 <small class="form-hint">
+                                    @error('price')
+                                        <div class="text-danger mt-2">{{ $message }}</div>
+                                    @enderror
                                 </small>
                             </div>
                         </div>
@@ -62,8 +77,26 @@
                             <div class="col">
                                 <input type="number" class="form-control" name="quantity" placeholder="quantity" value="">
                                 <small class="form-hint">
+                                    @error('quantity')
+                                        <div class="text-danger mt-2">{{ $message }}</div>
+                                    @enderror
                                 </small>
                             </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-3 col-form-label required">Category</label>
+                            <div class="col">
+                            <select type="text" class="form-select" id="categories" name="category_id" value="">
+                                @foreach ($categories as $index => $value)
+                                    <option value="{{ $index }}">{{ $value }}</option>
+                                @endforeach
+                            </select>
+                            <small class="form-hint">
+                                @error('category_id')
+                                    <div class="text-danger mt-2">{{ $message }}</div>
+                                @enderror
+                            </small>
+                          </div>
                         </div>
                         <div class="mb-3 row">
                             <label class="col-3 col-form-label required">Descripion</label>
@@ -88,3 +121,18 @@
       </div>
      
 @endsection
+
+
+@push('scripts')
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    	var el;
+    	window.TomSelect && (new TomSelect(el = document.getElementById('categories'), {
+            allowEmptyOption: true,
+            create: true
+    	}));
+    });
+  </script>
+    
+@endpush

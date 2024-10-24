@@ -38,12 +38,24 @@
                         </div>
                         <div class="card-body">
                             <div class="mb-3 row">
-                                <label class="col-3 col-form-label required">Product Name</label>
+                                <label class="col-3 col-form-label required">Product title</label>
                                 <div class="col">
                                     <input type="text" class="form-control" aria-describedby="emailHelp"
-                                        placeholder="Product Name" name="name" value="{{ $product->name }}">
+                                        placeholder="Product Name" name="title" value="{{ $product->title }}">
                                     <small class="form-hint">
-                                        @error('name')
+                                        @error('title')
+                                            <div class="text-danger mt-2">{{ $message }}</div>
+                                        @enderror
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-3 col-form-label required">Product Sku</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" aria-describedby=""
+                                        placeholder="Product Sku" name="sku" value="{{ $product->sku }}">
+                                    <small class="form-hint">
+                                        @error('sku')
                                             <div class="text-danger mt-2">{{ $message }}</div>
                                         @enderror
                                     </small>
@@ -66,6 +78,16 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
+                                <label class="col-3 col-form-label required">Category</label>
+                                <div class="col">
+                                <select type="text" class="form-select" id="categories" name="category_id" value="">
+                                    @foreach ($categories as $index => $value)
+                                        <option value="{{ $index }}" @selected($index == $product->category_id)>{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                                </div>
+                              </div>
+                            <div class="mb-3 row">
                                 <label class="col-3 col-form-label required">Descripion</label>
                                 <div class="col">
                                     <textarea name="description" class="form-control" id="" cols="30" rows="10">{{ $product->description }}</textarea>
@@ -87,3 +109,17 @@
     </div>
 
 @endsection
+
+@push('scripts')
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    	var el;
+    	window.TomSelect && (new TomSelect(el = document.getElementById('categories'), {
+            allowEmptyOption: true,
+            create: true
+    	}));
+    });
+  </script>
+    
+@endpush

@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'Product List')
+@section('title', 'Category List')
 @section('content')
     <!-- Page header -->
     <div class="page-header d-print-none">
@@ -11,13 +11,13 @@
                         Overview
                     </div> --}}
                     <h2 class="page-title">
-                        Products
+                        Categories
                     </h2>
                 </div>
                 <!-- Page title actions -->
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <a href="{{ route('admin.products.create') }}" class="btn btn-primary">
+                        <a href="{{ route('admin.categories.create') }}" class="btn btn-primary">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                                 stroke-linecap="round" stroke-linejoin="round">
@@ -27,7 +27,7 @@
                             </svg>
                             Create new product
                         </a>
-                        <button data-route="{{ route('admin.products.bulk_delete') }}" type="button" id="bulk-delete-btn" class="btn btn-danger" disabled>Delete Selected</button>
+                        <button data-route="{{ route('admin.categories.bulk_delete') }}" type="button" id="bulk-delete-btn" class="btn btn-danger" disabled>Delete Selected</button>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                     <div class="text-secondary">
                       Show
                       <div class="mx-2 d-inline-block">
-                        <select name="limit" onchange="updateData(this)" data-route="{{ route('admin.products.index') }}"> 
+                        <select name="limit" onchange="updateData(this)" data-route="{{ route('admin.categories.index') }}"> 
                           <option value="5" @selected((request()->limit ?? 10) == 5)>5</option>
                           <option value="10" @selected((request()->limit ?? 10) == 10)>10</option>
                           <option value="20" @selected((request()->limit ?? 10) == 20)>20</option>
@@ -56,7 +56,7 @@
                       Search:
                       <div class="ms-2 d-inline-block">
                         <form action="">
-                          <input type="text" class="form-control form-control-sm" aria-label="Search Products" name="q" value="{{ request()->q }}">
+                          <input type="text" class="form-control form-control-sm" aria-label="Search Categories" name="q" value="{{ request()->q }}">
                           <input type="hidden" name="limit" id="limitInput" value="{{ request()->limit }}">
                         </form>
                       </div>
@@ -72,38 +72,28 @@
                         <th class="w-1">ID
                           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-sm icon-thick" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 15l6 -6l6 6" /></svg>
                         </th>
-                        <th>Name</th>
-                        <th>Sku</th>
-                        <th>Category</th>
-                        
-                        {{-- <th>Description</th> --}}
-                        <th>Price</th>
-                        <th>Quantity</th>
+                        <th>Title</th>
                         <th>Created at</th>
                         <th></th>
                       </tr>
                     </thead>
                     <tbody>
-                    @foreach ($products as $product)
+                    @foreach ($categories as $category)
                     <tr>
-                        <td><input class="form-check-input m-0 align-middle selected-item" type="checkbox" value="{{ $product->id }}" aria-label="Select invoice"></td>
-                        <td><span class="text-secondary">{{ $product->id }}</span></td>
-                        <td><a href="{{ route('admin.products.show', $product->id) }}" class="text-reset" tabindex="-1">{{ ucwords($product->title) }}</a></td>
-                        <td><span class="text-secondary">{{ $product->sku }}</span></td>
-                        <td><span class="text-secondary">{{ $product->category->title }}</span></td>
-                        {{-- <td>{{ $product->description }}</td> --}}
-                        <td>{{ $product->price }}</td>
-                        <td>{{ $product->quantity }}</td>
-                        <td>{{ $product->created_at->diffForHumans() }}</td>
+                        <td><input class="form-check-input m-0 align-middle selected-item" type="checkbox" value="{{ $category->id }}" aria-label="Select invoice"></td>
+                        <td><span class="text-secondary">{{ $category->id }}</span></td>
+                        <td><a href="{{ route('admin.categories.show', $category->id) }}" class="text-reset" tabindex="-1">{{ ucwords($category->title) }}</a></td>
+                        
+                        <td>{{ $category->created_at->diffForHumans() }}</td>
                         <td class="text-end">
                           <span class="dropdown">
                             <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
                             <div class="dropdown-menu dropdown-menu-end">
-                              <a class="dropdown-item" href="{{ route('admin.products.edit', $product->id) }}">
+                              <a class="dropdown-item" href="{{ route('admin.categories.edit', $category->id) }}">
                                 Edit
                               </a>
                               <form onsubmit="return confirmDelete(event, this)"
-                                  action="{{ route('admin.products.destroy', $product->id) }}"
+                                  action="{{ route('admin.categories.destroy', $category->id) }}"
                                   method="post">
                                   @csrf
                                   @method('delete')
@@ -118,7 +108,7 @@
                   </table>
                 </div>
                 <div class="card-footer">
-                  {{ $products->links('pagination::bootstrap-5') }}
+                  {{ $categories->links('pagination::bootstrap-5') }}
                 </div>
               </div>
             </div>

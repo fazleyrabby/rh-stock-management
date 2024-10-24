@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
+use App\Models\Category;
 use App\Models\Product;
 use App\Services\CommonBusinessService;
 use App\Services\ProductService;
@@ -15,19 +16,21 @@ class ProductController extends Controller
     use AuthorizesRequests;
     public function index(Request $request, ProductService $productService)
     {
-        $products = $productService->getPaginatedProducts($request->all());
+        $products = $productService->getPaginatedItems($request->all());
         return view('admin.products.index', compact('products'));
     }
 
     public function create()
     {
-        return view('admin.products.create');
+        $categories = Category::pluck('title', 'id');
+        return view('admin.products.create', compact('categories'));
     }
 
     public function edit(Product $product)
     {
         $this->authorize('create', Product::class);
-        return view('admin.products.edit', compact('product'));
+        $categories = Category::pluck('title', 'id');
+        return view('admin.products.edit', compact('product','categories'));
     }
 
     public function store(ProductRequest $request)
@@ -40,7 +43,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::find($id);
+        $product = Product::with('category:id,title')->find($id);
         return view('admin.products.show', compact('product'));
     }
 

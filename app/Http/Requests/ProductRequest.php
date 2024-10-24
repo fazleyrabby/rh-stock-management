@@ -30,8 +30,10 @@ class ProductRequest extends FormRequest
         $id = $product instanceof Product ? $product->id : (is_string($product) ? $product : null);
 
         return [
-            'name' => 'required|string|max:120|unique:products,name,' . $id,
+            'title' => 'required|string|max:120|unique:products,title,' . $id,
             'description' => 'nullable|string|max:200',
+            'sku' => 'required|string|max:200|unique:products,sku,' . $id,
+            'category_id' => 'required',
             'price' => 'required|numeric',
             'quantity' => 'required|integer',
         ];

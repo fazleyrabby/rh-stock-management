@@ -16,13 +16,14 @@
     const productCheckboxes = document.querySelectorAll('.selected-item');
     const bulkDeleteBtn = document.getElementById('bulk-delete-btn');
 
-    selectAllCheckbox.addEventListener('change', function() {
-        productCheckboxes.forEach(checkbox => {
-            checkbox.checked = this.checked;
+    if (selectAllCheckbox) {
+        selectAllCheckbox.addEventListener('change', function() {
+            productCheckboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+            toggleBulkDeleteButton();
         });
-        toggleBulkDeleteButton();
-    });
-
+    }
     productCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', toggleBulkDeleteButton);
     });
@@ -33,31 +34,34 @@
     }
 
     // Bulk delete functionality
-    bulkDeleteBtn.addEventListener('click', function() {
+    if(bulkDeleteBtn){
+        bulkDeleteBtn.addEventListener('click', function() {
         const selectedProductIds = Array.from(productCheckboxes)
             .filter(checkbox => checkbox.checked)
-            .map(checkbox => checkbox.value);
+                .map(checkbox => checkbox.value);
 
-        if (selectedProductIds.length > 0) {
-            // Use SweetAlert for confirmation dialog
-            const totalItems = selectedProductIds.length;
-            Swal.fire({
-                title: 'Are you sure?',
-                text: `You are about to delete (${totalItems}) selected products. This action cannot be undone!`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, delete them!',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Call function to submit the form with the selected product IDs
-                    submitBulkDeleteForm(selectedProductIds, this.dataset.route);
-                }
-            });
-        }
-    });
+            if (selectedProductIds.length > 0) {
+                // Use SweetAlert for confirmation dialog
+                const totalItems = selectedProductIds.length;
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: `You are about to delete (${totalItems}) selected products. This action cannot be undone!`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete them!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Call function to submit the form with the selected product IDs
+                        submitBulkDeleteForm(selectedProductIds, this.dataset.route);
+                    }
+                });
+            }
+        });
+    }
+   
 
     function submitBulkDeleteForm(productIds, actionUrl) {
         // Create a form element

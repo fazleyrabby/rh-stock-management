@@ -50,7 +50,7 @@
     <script src="{{ asset('admin/dist/libs/jsvectormap/dist/maps/world.js') }}"></script>
     {{-- <script src="{{ asset('admin/dist/libs/sweetalert.js') }}"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script src="{{ asset('admin/dist/libs/tom-select/dist/js/tom-select.base.min.js') }}" defer></script>
     <!-- Tabler Core -->
     <script src="{{ asset('admin/dist/js/tabler.min.js') }}"></script>
     <script src="{{ asset('admin/dist/js/demo.min.js') }}"></script>
