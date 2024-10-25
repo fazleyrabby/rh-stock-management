@@ -82,7 +82,7 @@
                     <tr>
                         <td><input class="form-check-input m-0 align-middle selected-item" type="checkbox" value="{{ $category->id }}" aria-label="Select invoice"></td>
                         <td><span class="text-secondary">{{ $category->id }}</span></td>
-                        <td><a href="{{ route('admin.categories.show', $category->id) }}" class="text-reset" tabindex="-1">{{ ucwords($category->title) }}</a></td>
+                        <td><a href="{{ route('admin.categories.show', $category->id) }}" class="text-reset" tabindex="-1">{{ $category->title }}</a></td>
                         
                         <td>{{ $category->created_at->diffForHumans() }}</td>
                         <td class="text-end">
