@@ -17,6 +17,12 @@
         body {
             font-feature-settings: "cv03", "cv04", "cv11";
         }
+        .table-responsive{
+            min-height: 200px;
+        }
+        .swal2-success-circular-line-left,.swal2-success-fix,.swal2-success-circular-line-right{
+            background-color: transparent !important;
+        }
       </style>
     @stack('styles')
 </head>
@@ -42,10 +48,15 @@
     <script src="{{ asset('admin/dist/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
     <script src="{{ asset('admin/dist/libs/jsvectormap/dist/js/jsvectormap.js') }}"></script>
     <script src="{{ asset('admin/dist/libs/jsvectormap/dist/maps/world.js') }}"></script>
+    {{-- <script src="{{ asset('admin/dist/libs/sweetalert.js') }}"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('admin/dist/libs/tom-select/dist/js/tom-select.base.min.js') }}" defer></script>
     <!-- Tabler Core -->
     <script src="{{ asset('admin/dist/js/tabler.min.js') }}"></script>
     <script src="{{ asset('admin/dist/js/demo.min.js') }}"></script>
 
+    @include('admin.components.alerts')
+    @include('admin.components.scripts')
     @stack('scripts')
 </body>
 </html>

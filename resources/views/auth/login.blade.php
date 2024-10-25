@@ -35,7 +35,7 @@
                 @csrf
               <div class="mb-3">
                 <label class="form-label">Email address</label>
-                <input type="email" class="form-control" name="email" placeholder="your@email.com" autocomplete="off">
+                <input type="email" class="form-control" name="email" placeholder="your@email.com" value="{{ $user->email ?? '' }}" autocomplete="off">
                 @error('email') <span>{{ $message }}</span> @enderror
               </div>
               <div class="mb-2">
@@ -46,7 +46,7 @@
                   </span> --}}
                 </label>
                 <div class="input-group input-group-flat">
-                  <input type="password" class="form-control" name="password"  placeholder="Your password"  autocomplete="off">
+                  <input type="password" class="form-control" name="password"  placeholder="Your password" value="{{ $user->password ?? '' }}" autocomplete="off">
                   @error('password') <span>{{ $message }}</span> @enderror
                   <span class="input-group-text">
                     <a href="#" class="link-secondary" title="Show password" data-bs-toggle="tooltip">

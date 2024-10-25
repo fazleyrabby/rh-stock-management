@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,12 +16,22 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        $timeStamp = ['created_at' => now(), 'updated_at' => now()];
+        Category::insert([
+            ['title' => 'Electronics', ...$timeStamp],
+            ['title' => 'Furniture', ...$timeStamp],
+            ['title' => 'Clothing', ...$timeStamp],
+            ['title' => 'Groceries', ...$timeStamp],
+            ['title' => 'Books', ...$timeStamp],
+        ]);
+
         $this->call(ProductSeeder::class);
 
         User::create([
             'name' => 'Test user',
             'password' => bcrypt('123456'),
-            'email' => 'test@gmail.com'
+            'email' => 'test@gmail.com',
+            'role' => 'admin'
         ]);
     }
 }
