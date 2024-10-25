@@ -18,9 +18,9 @@ class CategoryService
                                 ->orWhere('id', 'like', '%'.$searchQuery.'%');
             });
         });
-        $categories = $query->orderBy('id', 'desc')->paginate($limit)->through(function($product) {
-            $product->created_at = $product->created_at->diffForHumans();
-            return $product;
+        $categories = $query->orderBy('id', 'desc')->paginate($limit)->through(function($category) {
+            $category->created_at = $category->created_at->diffForHumans();
+            return $category;
         });
         $categories->appends($params);
 

@@ -1,7 +1,4 @@
-Structure of the project
-
-### 1. **Users Table**
-This table tracks system users (e.g., admin, inventory managers).
+### 1. Users Table
 
 | Column Name      | Data Type     | Description                         |
 |------------------|---------------|-------------------------------------|
@@ -13,8 +10,19 @@ This table tracks system users (e.g., admin, inventory managers).
 | created_at       | timestamp     | Timestamp of record creation        |
 | updated_at       | timestamp     | Timestamp of last update            |
 
-### 2. **Products Table**
-This table stores details about the products being managed.
+### 2. Customers Table
+
+| Column Name      | Data Type     | Description                         |
+|------------------|---------------|-------------------------------------|
+| id               | bigint        | Primary key (auto-increment)        |
+| name             | varchar(255)  | Full name of the customer           |
+| email            | varchar(255)  | Unique email for the customer       |
+| phone            | varchar(50)   | Contact number                      |
+| address          | varchar(255)  | Shipping address                    |
+| created_at       | timestamp     | Timestamp of record creation        |
+| updated_at       | timestamp     | Timestamp of last update            |
+
+### 3. Products Table
 
 | Column Name      | Data Type     | Description                         |
 |------------------|---------------|-------------------------------------|
@@ -28,8 +36,7 @@ This table stores details about the products being managed.
 | created_at       | timestamp     | Timestamp of record creation        |
 | updated_at       | timestamp     | Timestamp of last update            |
 
-### 3. **Categories Table**
-This table categorizes the products.
+### 4. Categories Table
 
 | Column Name      | Data Type     | Description                         |
 |------------------|---------------|-------------------------------------|
@@ -38,8 +45,7 @@ This table categorizes the products.
 | created_at       | timestamp     | Timestamp of record creation        |
 | updated_at       | timestamp     | Timestamp of last update            |
 
-### 4. **Suppliers Table**
-This table tracks the suppliers for the products.
+### 5. Suppliers Table
 
 | Column Name      | Data Type     | Description                         |
 |------------------|---------------|-------------------------------------|
@@ -50,8 +56,7 @@ This table tracks the suppliers for the products.
 | created_at       | timestamp     | Timestamp of record creation        |
 | updated_at       | timestamp     | Timestamp of last update            |
 
-### 5. **Inventory Movements Table**
-This table logs every change in product quantity, whether incoming (stock added) or outgoing (stock removed).
+### 6. Inventory Movements Table
 
 | Column Name      | Data Type     | Description                         |
 |------------------|---------------|-------------------------------------|
@@ -62,8 +67,7 @@ This table logs every change in product quantity, whether incoming (stock added)
 | user_id          | bigint        | Foreign key to `users` table        |
 | created_at       | timestamp     | Timestamp of the movement           |
 
-### 6. **Stock Adjustments Table**
-This table logs any manual stock adjustments (e.g., correcting inventory count).
+### 7. Stock Adjustments Table
 
 | Column Name      | Data Type     | Description                         |
 |------------------|---------------|-------------------------------------|
@@ -75,25 +79,22 @@ This table logs any manual stock adjustments (e.g., correcting inventory count).
 | reason           | varchar(255)  | Reason for the adjustment           |
 | created_at       | timestamp     | Timestamp of the adjustment         |
 
-### 7. **Orders Table**
-If the system involves managing customer orders, the following table can be used to track them.
+### 8. Orders Table
 
 | Column Name      | Data Type     | Description                         |
 |------------------|---------------|-------------------------------------|
 | id               | bigint        | Primary key (auto-increment)        |
 | order_number     | varchar(100)  | Unique order identifier             |
-| customer_name    | varchar(255)  | Name of the customer                |
+| customer_id      | bigint        | Foreign key to `customers` table    |
 | total_amount     | decimal(10, 2)| Total order value                   |
 | status           | enum('pending', 'completed', 'cancelled') | Order status |
 | created_at       | timestamp     | Timestamp of the order              |
 | updated_at       | timestamp     | Timestamp of last update            |
 
----
+### Relationships Overview
 
-### Relationships:
-- **Products** have many **Inventory Movements** and many **Stock Adjustments**.
-- **Categories** have many **Products**.
-- **Suppliers** have many **Products**.
-- **Users** can create **Inventory Movements**, **Stock Adjustments**, and manage **Orders**.
-
-This simple database structure can be extended based on additional requirements like customer management, reporting, or more complex roles and permissions.
+- **Users**: Users can create **Inventory Movements** and **Stock Adjustments** and manage **Orders**.
+- **Customers**: Each order in the **Orders Table** is linked to a customer in the **Customers Table**.
+- **Products**: Each product can have many **Inventory Movements** and **Stock Adjustments**.
+- **Categories**: Each category can have many **Products**.
+- **Suppliers**: Each supplier can have many **Products**.

@@ -23,10 +23,8 @@ class ProductRequest extends FormRequest
      */
     public function rules(): array
     {
-        // Retrieve product from route parameter or request attribute (depending on how your routes are set up)
         $product = $this->route('product') ?? $this->product;
 
-        // Ensure product is an object before accessing 'id'
         $id = $product instanceof Product ? $product->id : (is_string($product) ? $product : null);
 
         return [

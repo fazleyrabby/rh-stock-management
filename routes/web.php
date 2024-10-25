@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Auth\LoginController;
@@ -27,10 +28,12 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function(){
     // Delete routes
     Route::delete('products/bulk-delete', [ProductController::class, 'bulkDelete'])->name('products.bulk_delete');
     Route::delete('categories/bulk-delete', [CategoryController::class, 'bulkDelete'])->name('categories.bulk_delete');
+    Route::delete('customers/bulk-delete', [CustomerController::class, 'bulkDelete'])->name('customers.bulk_delete');
 
     // Resource Routes
     Route::resource('products', ProductController::class)->names('products');
     Route::resource('categories', CategoryController::class)->names('categories');
+    Route::resource('customers', CustomerController::class)->names('customers');
 });
 
 
