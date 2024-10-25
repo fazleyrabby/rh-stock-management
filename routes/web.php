@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    Log::info('Hello World!');
+    // Log::error('Hello World! 22312323123');
     return view('welcome');
 });
 

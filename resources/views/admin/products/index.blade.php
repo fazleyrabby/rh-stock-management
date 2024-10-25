@@ -39,7 +39,6 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-body border-bottom py-3">
-                  
                   <div class="d-flex">
                     <div class="text-secondary">
                       Show
@@ -62,7 +61,6 @@
                       </div>
                     </div>
                   </div>
-                
                 </div>
                 <div class="table-responsive">
                   <table class="table card-table table-vcenter text-nowrap datatable">
@@ -75,7 +73,6 @@
                         <th>Name</th>
                         <th>Sku</th>
                         <th>Category</th>
-                        
                         {{-- <th>Description</th> --}}
                         <th>Price</th>
                         <th>Quantity</th>
@@ -88,7 +85,7 @@
                     <tr>
                         <td><input class="form-check-input m-0 align-middle selected-item" type="checkbox" value="{{ $product->id }}" aria-label="Select invoice"></td>
                         <td><span class="text-secondary">{{ $product->id }}</span></td>
-                        <td><a href="{{ route('admin.products.show', $product->id) }}" class="text-reset" tabindex="-1">{{ ucwords($product->title) }}</a></td>
+                        <td><a href="{{ route('admin.products.show', $product->id) }}" class="text-reset" tabindex="-1">{{ $product->title }}</a></td>
                         <td><span class="text-secondary">{{ $product->sku }}</span></td>
                         <td><span class="text-secondary">{{ $product->category->title }}</span></td>
                         {{-- <td>{{ $product->description }}</td> --}}
