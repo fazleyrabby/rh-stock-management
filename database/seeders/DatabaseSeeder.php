@@ -16,16 +16,19 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $timeStamp = ['created_at' => now(), 'updated_at' => now()];
-        Category::insert([
-            ['title' => 'Electronics', ...$timeStamp],
-            ['title' => 'Furniture', ...$timeStamp],
-            ['title' => 'Clothing', ...$timeStamp],
-            ['title' => 'Groceries', ...$timeStamp],
-            ['title' => 'Books', ...$timeStamp],
-        ]);
+        // $timeStamp = ['created_at' => now(), 'updated_at' => now()];
+        // Category::insert([
+        //     ['title' => 'Electronics', ...$timeStamp],
+        //     ['title' => 'Furniture', ...$timeStamp],
+        //     ['title' => 'Clothing', ...$timeStamp],
+        //     ['title' => 'Groceries', ...$timeStamp],
+        //     ['title' => 'Books', ...$timeStamp],
+        // ]);
 
-        $this->call(ProductSeeder::class);
+        $this->call([
+            CategorySeeder::class,
+            ProductSeeder::class
+        ]);
 
         User::create([
             'name' => 'Test user',

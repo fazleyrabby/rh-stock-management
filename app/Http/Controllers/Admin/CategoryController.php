@@ -36,7 +36,7 @@ class CategoryController extends Controller
             'title' => 'required|string|max:191|unique:categories,title',
         ]);
         Category::create($validated);
-        return redirect()->route('admin.categories.store')->with(['success' => 'Successfully created!']);
+        return redirect()->route('admin.categories.create')->with(['success' => 'Successfully created!']);
     }
 
     /**
