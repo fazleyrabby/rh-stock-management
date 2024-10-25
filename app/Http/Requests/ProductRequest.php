@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Product;
+use Hamcrest\Type\IsString;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductRequest extends FormRequest
@@ -26,10 +27,13 @@ class ProductRequest extends FormRequest
         $product = $this->route('product') ?? $this->product;
 
         // Ensure product is an object before accessing 'id'
-        $id = $product instanceof Product ? $product->id : null;
+        $id = $product instanceof Product ? $product->id : (is_string($product) ? $product : null);
+
         return [
-            'name' => 'required|string|max:200|unique:products,name,' . $id,
-            'description' => 'nullable|string',
+            'title' => 'required|string|max:120|unique:products,title,' . $id,
+            'description' => 'nullable|string|max:200',
+            'sku' => 'required|string|max:200|unique:products,sku,' . $id,
+            'category_id' => 'required',
             'price' => 'required|numeric',
             'quantity' => 'required|integer',
         ];
