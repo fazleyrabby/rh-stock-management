@@ -10,11 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', function () {
-    Log::info('Hello World!');
-    return view('welcome');
-});
-
+Route::get('/', [LoginController::class, 'loginForm'])->name('login');
 
 Route::get('register', [RegisterController::class, 'registerForm'])->name('register');
 Route::post('register', [RegisterController::class, 'register']);
@@ -22,18 +18,18 @@ Route::get('login', [LoginController::class, 'loginForm'])->name('login');
 Route::post('login', [LoginController::class, 'authenticate']);
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::resource('supplier', SupplierController::class);
 
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function(){
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     // Delete routes
     Route::delete('products/bulk-delete', [ProductController::class, 'bulkDelete'])->name('products.bulk_delete');
     Route::delete('categories/bulk-delete', [CategoryController::class, 'bulkDelete'])->name('categories.bulk_delete');
+    Route::delete('suppliers/bulk-delete', [SupplierController::class, 'bulkDelete'])->name('suppliers.bulk_delete');
 
     // Resource Routes
     Route::resource('products', ProductController::class)->names('products');
     Route::resource('categories', CategoryController::class)->names('categories');
+    Route::resource('suppliers', SupplierController::class);
 });
 
 

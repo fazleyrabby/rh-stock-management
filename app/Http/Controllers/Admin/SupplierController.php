@@ -3,63 +3,67 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SupplierRequest;
+use App\Models\Supplier;
+use App\Services\CommonBusinessService;
+use App\Services\SupplierService;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class SupplierController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    use AuthorizesRequests;
+    public function index(Request $request, SupplierService $supplierService)
     {
-        dd(1111111111111);
+        $suppliers = $supplierService->getPaginatedItems($request->all());
+        return view('admin.suppliers.index', compact('suppliers'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('admin.suppliers.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(SupplierRequest $request)
     {
-        //
+        $this->authorize('create', Supplier::class);
+        Supplier::create($request->validated());
+        return redirect()->route('admin.suppliers.create')->with(['success' => 'Successfully created!']);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Supplier $supplier)
     {
-        //
+        return view('admin.suppliers.show', compact('supplier'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Supplier $supplier)
     {
-        //
+        $this->authorize('create', Supplier::class);
+        return view('admin.suppliers.edit', compact('supplier'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(SupplierRequest $request, $id)
     {
-        //
+        $this->authorize('create', Supplier::class);
+        $supplier = Supplier::findOrFail($id);
+        $supplier->update($request->validated());
+        return redirect()->route('admin.suppliers.index')->with(['success' => 'Successfully updated!']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $this->authorize('delete', Supplier::class);
+        $product = Supplier::findOrFail($id);
+        $product->delete();
+        return redirect()->route('admin.suppliers.index')->with(['success' => 'Successfully deleted!']);
+    }
+
+    public function bulkDelete(Request $request, CommonBusinessService $commonBusinessService)
+    {
+        $this->authorize('delete', Supplier::class);
+
+        $ids = $request->input('ids');
+        $response = $commonBusinessService->bulkDelete($ids, 'App\Models\Supplier');
+        return redirect()->route('admin.suppliers.index')->with($response);
     }
 }

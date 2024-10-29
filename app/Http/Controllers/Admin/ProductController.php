@@ -30,7 +30,7 @@ class ProductController extends Controller
     {
         $this->authorize('create', Product::class);
         $categories = Category::pluck('title', 'id');
-        return view('admin.products.edit', compact('product','categories'));
+        return view('admin.products.edit', compact('product', 'categories'));
     }
 
     public function store(ProductRequest $request)
