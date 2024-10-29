@@ -86,7 +86,17 @@
                                     @endforeach
                                 </select>
                                 </div>
-                              </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-3 col-form-label required">Supplier</label>
+                                <div class="col">
+                                <select type="text" class="form-select" id="suppliers" name="supplier_id" value="">
+                                    @foreach ($suppliers as $index => $supplier)
+                                        <option value="{{ $index }}" @selected($index == $product->supplier_id)>{{ $supplier }}</option>
+                                    @endforeach
+                                </select>
+                                </div>
+                            </div>
                             <div class="mb-3 row">
                                 <label class="col-3 col-form-label required">Descripion</label>
                                 <div class="col">
@@ -116,6 +126,11 @@
     document.addEventListener("DOMContentLoaded", function () {
     	var el;
     	window.TomSelect && (new TomSelect(el = document.getElementById('categories'), {
+            allowEmptyOption: true,
+            create: true
+    	}));
+
+        window.TomSelect && (new TomSelect(el = document.getElementById('suppliers'), {
             allowEmptyOption: true,
             create: true
     	}));

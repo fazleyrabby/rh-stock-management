@@ -45,7 +45,7 @@
                 const totalItems = selectedProductIds.length;
                 Swal.fire({
                     title: 'Are you sure?',
-                    text: `You are about to delete (${totalItems}) selected products. This action cannot be undone!`,
+                    text: `You are about to delete (${totalItems}) selected items. This action cannot be undone!`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',

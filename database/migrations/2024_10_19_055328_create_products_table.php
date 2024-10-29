@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('sku')->unique();
+            $table->string('image')->nullable();
             $table->text('description')->nullable();
 
             
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade'); // Foreign key to categories
-            // $table->foreignId('supplier_id')->nullable()->constrained('suppliers')->onDelete('set null'); // Foreign key to suppliers
+            $table->foreignId('supplier_id')->constrained('suppliers')->onDelete('cascade'); // Foreign key to suppliers
             $table->decimal('price', 10, 2);
             $table->integer('quantity');
             // $table->integer('min_stock_level')->default(0); // Minimum stock level before alert

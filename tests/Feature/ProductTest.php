@@ -2,6 +2,7 @@
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Supplier;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -16,9 +17,11 @@ beforeEach(function () {
     DB::statement('SET FOREIGN_KEY_CHECKS=0;');
     DB::table('products')->truncate();  
     DB::table('categories')->truncate(); 
+    DB::table('suppliers')->truncate(); 
     DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
     $this->categories = Category::factory()->count(10)->create();
+    $this->suppliers = Supplier::factory()->count(10)->create();
     $this->product = Product::factory()->create();
     $this->user = User::find(1);
 });
@@ -43,6 +46,7 @@ test('it can create a product', function () {
         'title' => 'Test Product',
         'sku' => 'TEST-SKU-001',
         'category_id' => $this->categories->first()->id,
+        'supplier_id' => $this->suppliers->first()->id,
         'price' => "100.00",
         'quantity' => 10,
         'description' => 'test description',
@@ -64,6 +68,7 @@ test('it can update a product', function () {
         'title' => 'Test Product 001',
         'sku' => 'TEST-SKU-001',
         'category_id' => $this->categories->first()->id,
+        'supplier_id' => $this->suppliers->first()->id,
         'price' => "9.90",
         'quantity' => 5,
         'description' => 'test description 2',

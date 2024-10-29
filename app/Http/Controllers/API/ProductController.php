@@ -31,7 +31,8 @@ class ProductController extends BaseController implements HasMiddleware
         $productCollection = ProductResource::collection($products);
         return $this->sendPaginatedResponse(
             $productCollection,
-            setPaginationMetaData($products));
+            setPaginationMetaData($products)
+        );
     }
 
     /**
@@ -84,7 +85,7 @@ class ProductController extends BaseController implements HasMiddleware
     {
         try {
             $product = Product::find($id);
-            if(!$product){
+            if (!$product) {
                 return $this->sendError('Product Not found');
             }
             $product->delete();

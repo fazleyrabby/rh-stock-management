@@ -32,6 +32,7 @@ class ProductRequest extends FormRequest
             'description' => 'nullable|string|max:200',
             'sku' => 'required|string|max:200|unique:products,sku,' . $id,
             'category_id' => 'required',
+            'supplier_id' => 'required',
             'price' => 'required|numeric',
             'quantity' => 'required|integer',
         ];

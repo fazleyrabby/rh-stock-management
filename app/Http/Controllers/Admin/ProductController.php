@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Supplier;
 use App\Services\CommonBusinessService;
 use App\Services\ProductService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -23,14 +24,16 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::pluck('title', 'id');
-        return view('admin.products.create', compact('categories'));
+        $suppliers = Supplier::pluck('name', 'id');
+        return view('admin.products.create', compact('categories','suppliers'));
     }
 
     public function edit(Product $product)
     {
         $this->authorize('create', Product::class);
         $categories = Category::pluck('title', 'id');
-        return view('admin.products.edit', compact('product','categories'));
+        $suppliers = Supplier::pluck('name', 'id');
+        return view('admin.products.edit', compact('product', 'categories','suppliers'));
     }
 
     public function store(ProductRequest $request)
@@ -43,7 +46,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::with('category:id,title')->find($id);
+        $product = Product::with('category:id,title','supplier:id,name')->find($id);
         return view('admin.products.show', compact('product'));
     }
 
