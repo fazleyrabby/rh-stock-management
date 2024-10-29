@@ -5,37 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Customer extends Model
 {
     use HasFactory;
-
     public $guarded = [];
 
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
-
-    public function supplier()
-    {
-        return $this->belongsTo(Supplier::class);
-    }
     public function scopeFilter($query, $searchQuery)
     {
         if ($searchQuery) {
             $query->where(function ($subQuery) use ($searchQuery) {
-                $subQuery->where('title', 'like', '%' . $searchQuery . '%')
-                    ->orWhere('description', 'like', '%' . $searchQuery . '%')
+                $subQuery->where('name', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('address', 'like', '%' . $searchQuery . '%')
                     ->orWhere('id', 'like', '%' . $searchQuery . '%');
             })->orWhereHas('category', function ($q) use ($searchQuery) {
-                $q->where('title', 'like', '%' . $searchQuery . '%');
+                $q->where('name', 'like', '%' . $searchQuery . '%');
             });
         }
-
         return $query;
     }
 
-    public function getShortDescriptionAttribute()
+    public function getShortAddressAttribute()
     {
         return str()->limit($this->description, 20, '...');
     }
