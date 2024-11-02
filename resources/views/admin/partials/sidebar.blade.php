@@ -199,31 +199,14 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5" /><path d="M12 12l8 -4.5" /><path d="M12 12l0 9" /><path d="M12 12l-8 -4.5" /><path d="M16 5.25l-8 4.5" /></svg>
               </span>
               <span class="nav-link-title">
-                Dropdown
+                Manage Purchases
               </span>
             </a>
             <div class="dropdown-menu">
               <div class="dropdown-menu-columns">
                 <div class="dropdown-menu-column">
-                  <a class="dropdown-item" href="/supplier">Suppliers</a>
-                  <div class="dropend">
-                    <a class="dropdown-item dropdown-toggle" href="#sidebar-authentication" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false" >
-                      Dropdown link
-                    </a>
-                    <div class="dropdown-menu">
-                      <a href="#" class="dropdown-item">
-                        Dropdown children
-                      </a>
-                    </div>
-                  </div>
-                 
-                  
-                </div>
-                <div class="dropdown-menu-column">
-                  <a class="dropdown-item" href="#">
-                    Link with badge
-                    <span class="badge badge-sm bg-green-lt text-uppercase ms-auto">New</span>
-                  </a>
+                  <a class="dropdown-item" href="{{ route('admin.purchases.index') }}">Purchases</a>
+                  <a class="dropdown-item" href="{{ route('admin.purchases.create') }}">Create New Purchase</a>
                 </div>
               </div>
             </div>

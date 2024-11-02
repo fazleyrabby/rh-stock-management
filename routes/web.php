@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\PurchaseController;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::resource('categories', CategoryController::class)->names('categories');
     Route::resource('suppliers', SupplierController::class);
     Route::resource('customers', CustomerController::class)->names('customers');
+    Route::resource('purchases', PurchaseController::class)->names('purchases');
 });
 
 
