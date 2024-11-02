@@ -30,7 +30,7 @@
         <div class="container-xl">
             <div class="row row-deck row-cards">
                 <div class="col-12">
-                    <form class="card" action="{{ route('admin.products.update', $product->id) }}" method="post">
+                    <form class="card" action="{{ route('admin.products.update', $product->id) }}" method="post" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="card-header">
@@ -48,6 +48,20 @@
                                         @enderror
                                     </small>
                                 </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <div class="col-3 col-form-label required">Product Image</div>
+                                <div class="col">
+                                    <input type="file" class="form-control" name="image"/>
+                                    <small class="form-hint">
+                                        @error('image')
+                                            <div class="text-danger mt-2">{{ $message }}</div>
+                                        @enderror
+                                    </small>
+                                    <div>Previous Image:</div>
+                                    <img width="100" src="{{ asset($product->image) }}" alt="">
+                                </div>
+                                
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-3 col-form-label required">Product Sku</label>

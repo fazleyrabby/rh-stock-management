@@ -31,7 +31,7 @@
           <div class="row row-deck row-cards">
             <div class="col-12">
               <div class="card">
-                <form action="{{ route('admin.products.store') }}" method="post">
+                <form action="{{ route('admin.products.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="card-header">
                         <h3 class="card-title">Create new product</h3>
@@ -44,6 +44,17 @@
                                     placeholder="Product Name" name="title" value="{{ old('title') }}">
                                 <small class="form-hint">
                                     @error('title')
+                                        <div class="text-danger mt-2">{{ $message }}</div>
+                                    @enderror
+                                </small>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-3 col-form-label required">Product Image</div>
+                            <div class="col">
+                                <input type="file" class="form-control" name="image"/>
+                                <small class="form-hint">
+                                    @error('image')
                                         <div class="text-danger mt-2">{{ $message }}</div>
                                     @enderror
                                 </small>
