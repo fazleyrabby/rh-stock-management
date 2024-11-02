@@ -1,17 +1,25 @@
 <?php
 
-use App\Models\Category;
-use App\Models\Product;
-use App\Models\Supplier;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
-
-use function Pest\Laravel\delete;
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\Supplier;
+use App\Traits\UploadPhotos;
 use function Pest\Laravel\get;
-use function Pest\Laravel\post;
 use function Pest\Laravel\put;
 
+use function Pest\Laravel\post;
+use function Pest\Laravel\delete;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Laravel\Facades\Image;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Intervention\Image\Encoders\AutoEncoder;
+use Intervention\Image\Encoders\PngEncoder;
+
 // uses(RefreshDatabase::class);
+uses(UploadPhotos::class);
 
 beforeEach(function () {
     DB::statement('SET FOREIGN_KEY_CHECKS=0;');
@@ -39,8 +47,10 @@ test('it can display the products index', function () {
     $response->assertSee($this->product->title);
 });
 
-test('it can create a product', function () {
+test('it can create a product with an image upload', function () {
     $this->actingAs($this->user);
+
+    $fakeImage = UploadedFile::fake()->image('test_product.png', 640, 480); // Create a fake image file
 
     $response = post('admin/products', [
         'title' => 'Test Product',
@@ -50,19 +60,33 @@ test('it can create a product', function () {
         'price' => "100.00",
         'quantity' => 10,
         'description' => 'test description',
+        'image' => $fakeImage, // Attach the fake image here
     ]);
 
     $response->assertRedirect('/admin/products/create');
 
+    // Assert the product was created in the database
     $this->assertDatabaseHas('products', [
         'title' => 'Test Product',
         'sku' => 'TEST-SKU-001',
     ]);
+
+    $product = Product::where('sku', 'TEST-SKU-001')->first();
+
+    // Assert the image was stored in the correct disk location
+    Storage::disk('public')->assertExists($product->image);
+
+    // Cleanup: Delete the image after assertion
+    if ($product->image && Storage::disk('public')->exists($product->image)) {
+        Storage::disk('public')->delete($product->image);
+    }
 });
 
 
 test('it can update a product', function () {
     $this->actingAs($this->user); // Act as the created user
+
+    $fakeImage = UploadedFile::fake()->image('test_product_update.png', 640, 480);
 
     $response = put('admin/products/' . $this->product->id, [
         'title' => 'Test Product 001',
@@ -72,6 +96,7 @@ test('it can update a product', function () {
         'price' => "9.90",
         'quantity' => 5,
         'description' => 'test description 2',
+        'image' => $fakeImage,
     ]);
 
     $response->assertRedirect('/admin/products'); // Assuming a successful update returns a 200 status
@@ -84,16 +109,22 @@ test('it can update a product', function () {
         'quantity' => 5,
         'description' => 'test description 2',
     ]);
+
+    $product = Product::where('title', 'Test Product 001')->first();
+    Storage::disk('public')->assertExists($product->image);
+
+    // Cleanup: Delete the image after assertion
+    if ($product->image && Storage::disk('public')->exists($product->image)) {
+        Storage::disk('public')->delete($product->image);
+    }
 });
 
 
 test('it can delete a product', function () {
     $this->actingAs($this->user); // Act as the created user
-
     $this->assertDatabaseHas('products', [
         'id' => $this->product->id,
     ]);
-
     $response = delete('admin/products/' . $this->product->id);
     $response->assertRedirect('/admin/products');
     $this->assertDatabaseMissing('products', [

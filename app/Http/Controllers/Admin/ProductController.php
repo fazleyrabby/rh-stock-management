@@ -74,7 +74,8 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $this->authorize('delete', Product::class);
-        $product = Product::findOrFail($id);
+        $product = Product::findOrFail($id);     
+        $this->deleteImage($product->image);
         $product->delete();
         return redirect()->route('admin.products.index')->with(['success' => 'Successfully deleted!']);
     }
@@ -82,6 +83,10 @@ class ProductController extends Controller
     public function bulkDelete(Request $request, CommonBusinessService $commonBusinessService)
     {
         $ids = $request->input('ids');
+        $files = Product::whereIn('id',$ids)->pluck('image');
+        foreach($files as $file){
+            $this->deleteImage($file);
+        }
         $response = $commonBusinessService->bulkDelete($ids, 'App\Models\Product');
         return redirect()->route('admin.products.index')->with($response);
     }
