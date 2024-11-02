@@ -4,7 +4,9 @@ namespace Database\Factories;
 
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
@@ -23,6 +25,14 @@ class ProductFactory extends Factory
             'supplier_id' => $this->faker->numberBetween(1, 5),  // Random sentence for description
             'price' => $this->faker->randomFloat(2, 10, 200),  // Random price between 10 and 500
             'quantity' => $this->faker->numberBetween(1, 20),  // Random quantity between 1 and 100
+            'image' => '',
+            // 'image' => UploadedFile::fake()->image('test_product_' . uniqid() . '.png', 640, 480),
+            // 'image' => function () {
+            //     $fakeImage = UploadedFile::fake()->image('test_product.png', 640, 480);
+            //     $filename = 'uploads/' . uniqid() . '_test_product.png';
+            //     Storage::disk('public')->put($filename, (string) $fakeImage->getContent());
+            //     return $filename;
+            // },
         ];
     }
 }
