@@ -7,16 +7,11 @@ use App\Models\Supplier;
 use App\Traits\UploadPhotos;
 use function Pest\Laravel\get;
 use function Pest\Laravel\put;
-
 use function Pest\Laravel\post;
 use function Pest\Laravel\delete;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Laravel\Facades\Image;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
-use Intervention\Image\Encoders\AutoEncoder;
-use Intervention\Image\Encoders\PngEncoder;
 
 // uses(RefreshDatabase::class);
 uses(UploadPhotos::class);
@@ -77,9 +72,7 @@ test('it can create a product with an image upload', function () {
     Storage::disk('public')->assertExists($product->image);
 
     // Cleanup: Delete the image after assertion
-    if ($product->image && Storage::disk('public')->exists($product->image)) {
-        Storage::disk('public')->delete($product->image);
-    }
+    $this->deleteImage($product->image);
 });
 
 
@@ -114,9 +107,7 @@ test('it can update a product', function () {
     Storage::disk('public')->assertExists($product->image);
 
     // Cleanup: Delete the image after assertion
-    if ($product->image && Storage::disk('public')->exists($product->image)) {
-        Storage::disk('public')->delete($product->image);
-    }
+    $this->deleteImage($product->image);
 });
 
 

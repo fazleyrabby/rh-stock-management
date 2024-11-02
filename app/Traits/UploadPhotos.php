@@ -4,11 +4,13 @@ namespace App\Traits;
 
 use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Encoders\WebpEncoder;
+use Intervention\Image\Encoders\AutoEncoder;
 
 trait UploadPhotos
 {
-        /**
+    const FILESYSTEM = 'public'; 
+    
+    /**
      * Uploads a photo and optionally deletes an existing photo.
      *
      * @param \Illuminate\Http\UploadedFile $photo The photo to upload.
@@ -19,7 +21,7 @@ trait UploadPhotos
      * @param int $quality The quality of the image (1 to 100).
      * @return string|null The path to the uploaded photo or null on failure.
      */
-    public function uploadPhoto($photo, $existingPhoto = '', $directory = 'uploads/', $prefix = '', $format = 'png', $quality = 90)
+    public function uploadPhoto($photo, $existingPhoto = '', $directory = 'uploads/', $prefix = '')
     {
         if (!$photo || !$photo->isValid()) {
             return null;
@@ -33,8 +35,8 @@ trait UploadPhotos
 
         // Create and store the new image
         $img = Image::read($photo->getRealPath());
-        $img = $img->encode(new WebpEncoder(quality: 90));
-        Storage::disk('public')->put($photoPath, $img);
+        $img = $img->encode(new AutoEncoder(quality: 80));
+        Storage::disk(self::FILESYSTEM)->put($photoPath, $img);
 
         return $photoPath;
     }
@@ -46,8 +48,8 @@ trait UploadPhotos
      */
     public function deleteImage($filePath)
     {
-        if ($filePath && Storage::disk('public')->exists($filePath)) {
-            Storage::disk('public')->delete($filePath);
+        if ($filePath && Storage::disk(self::FILESYSTEM)->exists($filePath)) {
+            Storage::disk(self::FILESYSTEM)->delete($filePath);
         }
     }
 

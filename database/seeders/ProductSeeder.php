@@ -14,15 +14,15 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        Product::factory()->count(50)->create();
-        // $products = getDummyProducts();
-        // $data = array_map(function($product){
-        //     $product['created_at'] = now();
-        //     $product['updated_at'] = now();
-        //     $product['supplier_id'] = fake()->numberBetween(1, 10);
-        //     return $product;
-        // }, $products);
+        // Product::factory()->count(50)->create();
+        $products = getDummyProducts();
+        $data = array_map(function($product){
+            $product['created_at'] = now();
+            $product['updated_at'] = now();
+            $product['supplier_id'] = fake()->numberBetween(1, 10);
+            return $product;
+        }, $products);
         
-        // Product::insert($data);
+        Product::insert($data);
     }
 }
