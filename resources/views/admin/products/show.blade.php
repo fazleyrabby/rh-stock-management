@@ -36,6 +36,12 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3 row">
+                            <label class="col-3 col-form-label required">Product Image</label>
+                            <div class="col">
+                                <img width="200" src="{{ asset($product->image) }}" alt="" class="border">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
                             <label class="col-3 col-form-label required">Product title</label>
                             <div class="col">
                                 {{ $product->title }}

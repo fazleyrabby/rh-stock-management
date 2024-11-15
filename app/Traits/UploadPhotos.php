@@ -8,7 +8,7 @@ use Intervention\Image\Encoders\AutoEncoder;
 
 trait UploadPhotos
 {
-    const FILESYSTEM = 'public'; 
+    const FILESYSTEM = env('FILESYSTEM_DISK', 'public'); 
     
     /**
      * Uploads a photo and optionally deletes an existing photo.
@@ -30,14 +30,13 @@ trait UploadPhotos
         // Generate a unique filename
         $photoPath = self::generateUniqueFileNameWithDirectory($photo->getClientOriginalExtension(), $directory, $prefix);
 
-        // Delete the existing photo, if any
-        $this->deleteImage($existingPhoto);
-
         // Create and store the new image
         $img = Image::read($photo->getRealPath());
         $img = $img->encode(new AutoEncoder(quality: 80));
         Storage::disk(self::FILESYSTEM)->put($photoPath, $img);
 
+        // Delete the existing photo, if any
+        $this->deleteImage($existingPhoto);
         return $photoPath;
     }
 
