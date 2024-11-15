@@ -8,7 +8,7 @@ use Intervention\Image\Encoders\AutoEncoder;
 
 trait UploadPhotos
 {
-    const FILESYSTEM = env('FILESYSTEM_DISK', 'public'); 
+    const FILESYSTEM = 'public'; 
     
     /**
      * Uploads a photo and optionally deletes an existing photo.
