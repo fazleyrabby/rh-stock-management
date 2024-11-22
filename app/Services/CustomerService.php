@@ -22,7 +22,7 @@ class CustomerService
             return $customer;
         });
         $customers->appends($params);
-
+        
         return $customers;
     }
 }

@@ -26,15 +26,14 @@ trait UploadPhotos
         if (!$photo || !$photo->isValid()) {
             return null;
         }
-
         // Generate a unique filename
         $photoPath = self::generateUniqueFileNameWithDirectory($photo->getClientOriginalExtension(), $directory, $prefix);
-
+        
         // Create and store the new image
         $img = Image::read($photo->getRealPath());
         $img = $img->encode(new AutoEncoder(quality: 80));
         Storage::disk(self::FILESYSTEM)->put($photoPath, $img);
-
+        
         // Delete the existing photo, if any
         $this->deleteImage($existingPhoto);
         return $photoPath;

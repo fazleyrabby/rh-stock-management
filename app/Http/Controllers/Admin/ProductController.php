@@ -61,7 +61,7 @@ class ProductController extends Controller
     {
         $this->authorize('create', Product::class);
         $product = Product::findOrFail($id);
-        $data = $request->validated(); // Get validated data
+        $data = $request->validated(); 
         // Check if there's an image file and upload it
         if ($request->hasFile('image')) {
             $data['image'] = $this->uploadPhoto($request->file('image'), $product->image);

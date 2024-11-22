@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\CustomerController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\SupplierController;
-use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\PurchaseController;
+use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\DashboardController;
 
 
 Route::get('/', [LoginController::class, 'loginForm'])->name('login');
@@ -33,6 +34,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::resource('categories', CategoryController::class)->names('categories');
     Route::resource('suppliers', SupplierController::class);
     Route::resource('customers', CustomerController::class)->names('customers');
+    Route::resource('purchases', PurchaseController::class)->names('purchases');
 });
 
 
