@@ -1,4 +1,4 @@
-## Stock Management App
+## Inventory Management App
 Products Screenshot:
 ![CleanShot 2024-11-22 at 23 52 49@2x](https://github.com/user-attachments/assets/eaa8bb08-6526-4674-8648-2633eb563a8f)
 
