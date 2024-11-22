@@ -10,7 +10,8 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\DashboardController;
-
+use App\Http\Controllers\Admin\ProductStockController;
+use App\Http\Controllers\Admin\StockMovementController;
 
 Route::get('/', [LoginController::class, 'loginForm'])->name('login');
 
@@ -28,6 +29,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::delete('categories/bulk-delete', [CategoryController::class, 'bulkDelete'])->name('categories.bulk_delete');
     Route::delete('suppliers/bulk-delete', [SupplierController::class, 'bulkDelete'])->name('suppliers.bulk_delete');
     Route::delete('customers/bulk-delete', [SupplierController::class, 'bulkDelete'])->name('customers.bulk_delete');
+    Route::delete('stocks/movement/bulk-delete', [StockMovementController::class, 'bulkDelete'])->name('stocks.movement.bulk_delete');
 
     // Resource Routes
     Route::resource('products', ProductController::class)->names('products');
@@ -35,6 +37,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::resource('suppliers', SupplierController::class);
     Route::resource('customers', CustomerController::class)->names('customers');
     Route::resource('purchases', PurchaseController::class)->names('purchases');
+    Route::resource('stocks/movement', StockMovementController::class)->names('stocks.movement');
+    Route::resource('stocks', ProductStockController::class)->names('stocks');
 });
 
 

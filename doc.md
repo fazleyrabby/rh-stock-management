@@ -70,27 +70,26 @@ Here's the complete database structure, incorporating the new product import and
 
 ---
 
-### 6. Inventory Movements Table
+### 6. Stock Movements Table
 
 | Column Name      | Data Type                               | Description                                         |
 |------------------|-----------------------------------------|-----------------------------------------------------|
 | id               | bigint                                  | Primary key (auto-increment)                        |
 | product_id       | bigint                                  | Foreign key to `products` table                     |
-| movement_type    | enum('in', 'out')                       | Type of movement: 'in' for restock, 'out' for sale  |
+| type             | enum('in', 'out','damage')              | Type of movement: 'in' for restock, 'out' for sale  |
 | quantity         | int                                     | Quantity moved                                      |
 | user_id          | bigint                                  | Foreign key to `users` table                        |
 | created_at       | timestamp                               | Timestamp of the movement                           |
 
 ---
 
-### 7. Stock Adjustments Table
+### 7. Product Stocks Table
 
 | Column Name      | Data Type                               | Description                                         |
 |------------------|-----------------------------------------|-----------------------------------------------------|
 | id               | bigint                                  | Primary key (auto-increment)                        |
 | product_id       | bigint                                  | Foreign key to `products` table                     |
-| previous_quantity| int                                     | Quantity before adjustment                          |
-| new_quantity     | int                                     | Adjusted quantity                                   |
+| quantity         | int                                     | Adjusted quantity                                   |
 | user_id          | bigint                                  | Foreign key to `users` table                        |
 | reason           | varchar(255)                            | Reason for the adjustment                           |
 | created_at       | timestamp                               | Timestamp of the adjustment                         |
@@ -145,14 +144,14 @@ Here's the complete database structure, incorporating the new product import and
 | id               | bigint                                  | Primary key (auto-increment)                        |
 | purchase_number  | varchar(100)                            | Unique identifier for the purchase                  |
 | supplier_id      | bigint                                  | Foreign key to `suppliers` table                    |
-| total_amount     | decimal(10, 2)                          | Total value of the purchase                         |
+| amount           | decimal(10, 2)                          | Total value of the purchase                         |
 | status           | enum('pending', 'received', 'cancelled') | Current status of the purchase                     |
 | created_at       | timestamp                               | Timestamp of purchase creation                      |
 | updated_at       | timestamp                               | Timestamp of last update                            |
 
 ---
 
-### 12. Purchase Items Table
+### 12. Purchase Products Table
 
 | Column Name      | Data Type                               | Description                                         |
 |------------------|-----------------------------------------|-----------------------------------------------------|
@@ -160,7 +159,7 @@ Here's the complete database structure, incorporating the new product import and
 | purchase_id      | bigint                                  | Foreign key to `purchases` table                    |
 | product_id       | bigint                                  | Foreign key to `products` table                     |
 | quantity         | int                                     | Quantity of the product purchased                   |
-| cost_price       | decimal(10, 2)                          | Cost price of the product per unit                  |
+| price            | decimal(10, 2)                          | Cost price of the product per unit                  |
 
 ---
 

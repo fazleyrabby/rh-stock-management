@@ -20,6 +20,15 @@ class Product extends Model
     {
         return $this->belongsTo(Supplier::class);
     }
+
+    public function stockMovements()
+    {
+        return $this->hasMany(StockMovement::class);
+    }
+    public function productStocks()
+    {
+        return $this->hasMany(ProductStock::class);
+    }
     public function scopeFilter($query, $searchQuery)
     {
         if ($searchQuery) {

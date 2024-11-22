@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -25,13 +24,6 @@ class DatabaseSeeder extends Seeder
         //     ['title' => 'Books', ...$timeStamp],
         // ]);
 
-        $this->call([
-            CategorySeeder::class,
-            SupplierSeeder::class,
-            ProductSeeder::class,
-            CustomerSeeder::class,
-            PurchaseSeeder::class,
-        ]);
 
         User::create([
             'name' => 'Test user',
@@ -39,5 +31,15 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@gmail.com',
             'role' => 'admin'
         ]);
+
+        $this->call([
+            CategorySeeder::class,
+            SupplierSeeder::class,
+            ProductSeeder::class,
+            CustomerSeeder::class,
+            PurchaseSeeder::class,
+            StockMovementSeeder::class
+        ]);
+
     }
 }
