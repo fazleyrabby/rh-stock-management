@@ -33,12 +33,12 @@ test('it can create a purchase with specified products', function () {
         [
             'product_id' => $this->products->random()->id,
             'quantity' => 3,
-            'cost_price' => 20.00,
+            'price' => 20.00,
         ],
         [
             'product_id' => $this->products->random()->id,
             'quantity' => 2,
-            'cost_price' => 15.00,
+            'price' => 15.00,
         ],
     ];
 
@@ -63,7 +63,7 @@ test('it can create a purchase with specified products', function () {
         $this->assertDatabaseHas('purchase_products', [
             'product_id' => $product['product_id'],
             'quantity' => $product['quantity'],
-            'cost_price' => $product['cost_price'],
+            'cost_price' => $product['price'],
         ]);
     }
 });
