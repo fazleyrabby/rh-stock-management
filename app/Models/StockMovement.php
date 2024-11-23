@@ -2,14 +2,21 @@
 
 namespace App\Models;
 
+use App\Observers\StockMovementObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+#[ObservedBy([StockMovementObserver::class])]
 class StockMovement extends Model
 {
     use HasFactory;
     public $guarded = [];
-
+    // protected static function booted()
+    // {
+    //     parent::booted();
+    //     static::observe(StockMovementObserver::class);
+    // }
     
     public function product()
     {
