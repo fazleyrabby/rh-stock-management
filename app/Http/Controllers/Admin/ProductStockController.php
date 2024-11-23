@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\StockService;
 use Illuminate\Http\Request;
 
 class ProductStockController extends Controller
@@ -10,9 +11,10 @@ class ProductStockController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(StockService $stockService, Request $request)
     {
-        //
+        $stocks = $stockService->getStockPaginatedItems($request->all());
+        return view('admin.stocks.index', compact('stocks'));
     }
 
     /**

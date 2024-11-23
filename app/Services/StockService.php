@@ -9,12 +9,28 @@ use Illuminate\Support\Facades\Log;
 class StockService
 {
     public static function updateStock($productId, $quantity){
-        $productStock = ProductStock::firstOrNew(
+    $productStock = ProductStock::firstOrNew(
             ['product_id' => $productId],  // Find or create
-            ['quantity' => 0]              // Default values for new record if not found
+            ['quantity' => 0]                  // Default values for new record if not found
         );
         $productStock->quantity += $quantity;
         $productStock->save(); 
+    }
+
+    public function getStockPaginatedItems($params){
+        $query = ProductStock::query()->with('product:id,title');
+        $searchQuery = $params['q'] ?? null;
+        $limit = $params['limit'] ?? config('app.pagination.limit');
+
+        $query->filter($searchQuery);
+        $stocks = $query->orderBy('id', 'desc')
+                    ->paginate($limit)
+                    ->through(function($stock) {
+                        $stock->created_at = $stock->created_at_human;
+                        return $stock;
+                    });
+
+        return $stocks->appends($params);
     }
 
     public function getStockMovementPaginatedItems($params){
