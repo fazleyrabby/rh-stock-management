@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+// use App\Observers\StockMovementObserver;
 use App\Observers\StockMovementObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

@@ -70,7 +70,7 @@
                             <div class="mb-3 row">
                                 <label class="col-3 col-form-label required">Quantity</label>
                                 <div class="col">
-                                    <input type="number" class="form-control" name="quantity" placeholder="quantity" value="{{ $stockMovement->quantity }}">
+                                    <input type="number" class="form-control" name="quantity" placeholder="quantity" value="{{ abs($stockMovement->quantity) }}">
                                     <small class="form-hint">
                                         @error('quantity')
                                             <div class="text-danger mt-2">{{ $message }}</div>

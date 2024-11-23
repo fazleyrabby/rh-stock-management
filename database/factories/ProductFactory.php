@@ -24,7 +24,7 @@ class ProductFactory extends Factory
             'category_id' => $this->faker->numberBetween(1, 3),  // Random sentence for description
             'supplier_id' => $this->faker->numberBetween(1, 5),  // Random sentence for description
             'price' => $this->faker->randomFloat(2, 10, 200),  // Random price between 10 and 500
-            'quantity' => $this->faker->numberBetween(1, 20),  // Random quantity between 1 and 100
+            // 'quantity' => $this->faker->numberBetween(1, 20),  // Random quantity between 1 and 100
             'image' => '',
             // 'image' => UploadedFile::fake()->image('test_product_' . uniqid() . '.png', 640, 480),
             // 'image' => function () {
