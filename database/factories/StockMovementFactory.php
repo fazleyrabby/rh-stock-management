@@ -21,8 +21,10 @@ class StockMovementFactory extends Factory
         return [
             'product_id' => Product::inRandomOrder()->first()->id,
             'user_id' => 1,
-            'quantity' => $this->faker->randomDigitNotNull(), 
-            'type' => $this->faker->randomElement(['in', 'out', 'damage']),
+            'type' => $type = $this->faker->randomElement(['in', 'out', 'damage']),
+            'quantity' => $type === 'in' 
+                ? $this->faker->numberBetween(1, 10) 
+                : -$this->faker->numberBetween(1, 10), // Negative for "out" and "damage"
             'created_at' => now(),
             'updated_at' => now(),
         ];

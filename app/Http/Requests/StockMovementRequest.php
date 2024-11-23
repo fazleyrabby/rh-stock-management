@@ -15,6 +15,18 @@ class StockMovementRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        if (in_array($this->type, ['out', 'damage'])) {
+            $this->merge([
+                'quantity' => -abs($this->quantity),
+            ]);
+        } elseif ($this->type === 'in') {
+            $this->merge([
+                'quantity' => abs($this->quantity),
+            ]);
+        }
+    }
     /**
      * Get the validation rules that apply to the request.
      *

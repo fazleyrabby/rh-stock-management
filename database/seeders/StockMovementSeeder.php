@@ -13,6 +13,6 @@ class StockMovementSeeder extends Seeder
      */
     public function run(): void
     {
-        StockMovement::factory()->count(20)->create();
+        StockMovement::factory()->count(100)->create();
     }
 }
