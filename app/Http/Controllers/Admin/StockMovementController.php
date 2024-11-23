@@ -39,6 +39,7 @@ class StockMovementController extends Controller
             'user_id' => auth()->user()->id, // Use `auth()->id()` for brevity
         ]);
         StockMovement::create($data);
+        
         return redirect()->route('admin.stocks.movement.store')->with(['success' => 'Successfully created!']);
     }
 

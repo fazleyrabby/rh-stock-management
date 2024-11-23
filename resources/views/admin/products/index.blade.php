@@ -75,7 +75,7 @@
                         <th>Category</th>
                         {{-- <th>Description</th> --}}
                         <th>Price</th>
-                        <th>Quantity</th>
+                        {{-- <th>Quantity</th> --}}
                         <th>Created at</th>
                         <th></th>
                       </tr>
@@ -90,7 +90,7 @@
                         <td><span class="text-secondary">{{ $product->category->title }}</span></td>
                         {{-- <td>{{ $product->description }}</td> --}}
                         <td>{{ $product->price }}</td>
-                        <td>{{ $product->quantity }}</td>
+                        {{-- <td>{{ $product->quantity }}</td> --}}
                         <td>{{ $product->created_at->diffForHumans() }}</td>
                         <td class="text-end">
                           <span class="dropdown">

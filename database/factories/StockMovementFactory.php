@@ -23,8 +23,8 @@ class StockMovementFactory extends Factory
             'user_id' => 1,
             'type' => $type = $this->faker->randomElement(['in', 'out', 'damage']),
             'quantity' => $type === 'in' 
-                ? $this->faker->numberBetween(1, 10) 
-                : -$this->faker->numberBetween(1, 10), // Negative for "out" and "damage"
+                ? $this->faker->numberBetween(1, 5) 
+                : -$this->faker->numberBetween(1, 5), // Negative for "out" and "damage"
             'created_at' => now(),
             'updated_at' => now(),
         ];

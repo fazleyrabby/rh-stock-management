@@ -83,7 +83,7 @@
                         <td><span class="text-secondary">{{ $stock->id }}</span></td>
                         <td>{{ $stock->product->title }}</td>
                         <td>{{ $stock->quantity }}</td>
-                        <td>{{ $stock->created_at }}</td>
+                        <td>{{ $stock->updated_at_human }}</td>
                         {{-- <td class="text-end">
                           <span class="dropdown">
                             <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>

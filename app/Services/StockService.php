@@ -23,12 +23,7 @@ class StockService
         $limit = $params['limit'] ?? config('app.pagination.limit');
 
         $query->filter($searchQuery);
-        $stocks = $query->orderBy('id', 'desc')
-                    ->paginate($limit)
-                    ->through(function($stock) {
-                        $stock->created_at = $stock->created_at_human;
-                        return $stock;
-                    });
+        $stocks = $query->orderBy('id', 'desc')->paginate($limit);
 
         return $stocks->appends($params);
     }

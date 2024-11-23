@@ -28,4 +28,9 @@ class ProductStock extends Model
     {
         return $this->created_at->diffForHumans();
     }
+
+    public function getUpdatedAtHumanAttribute()
+    {
+        return $this->updated_at->diffForHumans();
+    }
 }
