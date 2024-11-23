@@ -84,14 +84,6 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-3 col-form-label required">Quantity</label>
-                                <div class="col">
-                                    <input type="number" class="form-control" name="quantity" placeholder="quantity" value="{{ $product->quantity }}">
-                                    <small class="form-hint">
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
                                 <label class="col-3 col-form-label required">Category</label>
                                 <div class="col">
                                 <select type="text" class="form-select" id="categories" name="category_id" value="">

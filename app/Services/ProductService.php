@@ -23,7 +23,6 @@ class ProductService
 
         $query->filter($searchQuery);
         $products = $query->orderBy('id', 'desc')->paginate($limit)->through(function($product) {
-            $product->created_at = $product->created_at_human;
             $product->description = $product->short_description;
             return $product;
         });

@@ -72,12 +72,6 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label class="col-3 col-form-label required">Quantity</label>
-                            <div class="col">
-                                {{ $product->quantity }}
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
                             <label class="col-3 col-form-label required">Descripion</label>
                             <div class="col">
                                 {{ $product->description }}
