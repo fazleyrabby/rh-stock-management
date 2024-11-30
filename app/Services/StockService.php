@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 class StockService
 {
     public static function updateStock($productId, $quantity){
-    $productStock = ProductStock::firstOrNew(
+        $productStock = ProductStock::firstOrNew(
             ['product_id' => $productId],  // Find or create
             ['quantity' => 0]                  // Default values for new record if not found
         );

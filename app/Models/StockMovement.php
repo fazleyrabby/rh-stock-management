@@ -13,8 +13,13 @@ class StockMovement extends Model
 {
     use HasFactory;
     public $guarded = [];
+
     // protected static function booted()
     // {
+    //     // static::created(function (StockMovement $stockMovement) {});
+    //     // static::updated(function () {});
+    //     static::deleted(function () {});
+        
     //     parent::booted();
     //     static::observe(StockMovementObserver::class);
     // }

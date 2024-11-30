@@ -21,4 +21,12 @@ class Purchase extends Model
     {
         return $this->hasMany(PurchaseProduct::class);
     }
+
+    public function scopeFilter($query, $searchQuery)
+    {
+        if ($searchQuery) {
+            $query->where('purchase_number', 'LIKE', "%{$searchQuery}%")
+                ->orWhere('total_amount', 'LIKE', "%{$searchQuery}%");
+        }
+    }
 }
