@@ -27,6 +27,12 @@ class PurchaseController extends Controller
         return view('admin.purchases.create', compact('products','suppliers'));
     }
 
+    public function show($id)
+    {
+        $purchase = Purchase::with('purchaseProducts.product:title,price,id','supplier:id,name')->find($id);
+        return view('admin.purchases.show', compact('purchase'));
+    }
+
     public function store(PurchaseRequest $request, PurchaseService $purchaseService)
     {
         try {
@@ -47,10 +53,34 @@ class PurchaseController extends Controller
         return view('admin.purchases.edit', compact('products','suppliers','purchase'));
     }
 
-
-    public function show($id)
+    public function update($id, PurchaseRequest $request, PurchaseService $purchaseService)
     {
-        $purchase = Purchase::with('purchaseProducts.product:title,price,id','supplier:id,name')->find($id);
-        return view('admin.purchases.show', compact('purchase'));
+        try {
+            $purchaseService->update($request->validated(), $id);
+            $type = 'success';
+            $message = 'Successfully updated!';
+        } catch (\Exception $e) {
+            $type = 'error';
+            $message = 'Failed to updated purchase!';
+        }
+        return redirect()->route('admin.purchases.index')->with([$type => $message]);
     }
+
+
+    public function destroy($id, PurchaseService $purchaseService)
+    {
+        try {
+            $purchaseService->delete($id);
+            $type = 'success';
+            $message = 'Successfully updated!';
+        } catch (\Exception $e) {
+            $type = 'error';
+            $message = 'Failed to updated purchase!';
+        }
+        return redirect()->route('admin.purchases.index')->with([$type => $message]);
+        // $stockMovement = StockMovement::findOrFail($id);
+        // $stockMovement->delete();
+        // return redirect()->route('admin.stocks.movement.index')->with(['success' => 'Successfully deleted!']);
+    }
+    
 }

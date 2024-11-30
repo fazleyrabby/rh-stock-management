@@ -102,11 +102,6 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
     	var el;
-    	window.TomSelect && (new TomSelect(el = document.getElementById('categories'), {
-            allowEmptyOption: true,
-            create: true
-    	}));
-
         window.TomSelect && (new TomSelect(el = document.getElementById('suppliers'), {
             allowEmptyOption: true,
             create: true
