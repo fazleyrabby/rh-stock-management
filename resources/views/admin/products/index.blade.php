@@ -74,7 +74,8 @@
                         <th>Sku</th>
                         <th>Category</th>
                         {{-- <th>Description</th> --}}
-                        <th>Price</th>
+                        <th>Purchase Price</th>
+                        <th>Sale Price</th>
                         {{-- <th>Quantity</th> --}}
                         <th>Created at</th>
                         <th></th>
@@ -89,7 +90,8 @@
                         <td><span class="text-secondary">{{ $product->sku }}</span></td>
                         <td><span class="text-secondary">{{ $product->category->title }}</span></td>
                         {{-- <td>{{ $product->description }}</td> --}}
-                        <td>{{ $product->price }}</td>
+                        <td>{{ $product->purchase_price }}</td>
+                        <td>{{ $product->sale_price }}</td>
                         {{-- <td>{{ $product->quantity }}</td> --}}
                         <td>{{ $product->created_at->diffForHumans() }}</td>
                         <td class="text-end">

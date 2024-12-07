@@ -73,11 +73,22 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label class="col-3 col-form-label required">Price</label>
+                            <label class="col-3 col-form-label required">Purchase Price</label>
                             <div class="col">
-                                <input type="text" class="form-control" name="price" placeholder="price" value="">
+                                <input type="text" class="form-control" name="purchase_price" placeholder="purchase price" value="">
                                 <small class="form-hint">
-                                    @error('price')
+                                    @error('purchase_price')
+                                        <div class="text-danger mt-2">{{ $message }}</div>
+                                    @enderror
+                                </small>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-3 col-form-label required">Sale Price</label>
+                            <div class="col">
+                                <input type="text" class="form-control" name="sale_price" placeholder="sale_price" value="">
+                                <small class="form-hint">
+                                    @error('sale_price')
                                         <div class="text-danger mt-2">{{ $message }}</div>
                                     @enderror
                                 </small>

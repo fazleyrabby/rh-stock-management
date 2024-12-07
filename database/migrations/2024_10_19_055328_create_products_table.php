@@ -19,7 +19,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade'); // Foreign key to categories
             $table->foreignId('supplier_id')->constrained('suppliers')->onDelete('cascade'); // Foreign key to suppliers
-            $table->decimal('price', 10, 2);
+            $table->decimal('purchase_price', 10, 2);
+            $table->decimal('sale_price', 10, 2);
             // $table->integer('quantity');
             // $table->integer('min_stock_level')->default(0); // Minimum stock level before alert
             $table->timestamps();

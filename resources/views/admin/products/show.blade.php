@@ -66,9 +66,15 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label class="col-3 col-form-label required">Price</label>
+                            <label class="col-3 col-form-label required">Purchase Price</label>
                             <div class="col">
-                                {{ $product->price }}
+                                {{ $product->purchase_price }}
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-3 col-form-label required">Sale Price</label>
+                            <div class="col">
+                                {{ $product->sale_price }}
                             </div>
                         </div>
                         <div class="mb-3 row">

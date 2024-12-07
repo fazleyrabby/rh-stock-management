@@ -52,8 +52,8 @@ test('it can create a product with an image upload', function () {
         'sku' => 'TEST-SKU-001',
         'category_id' => $this->categories->first()->id,
         'supplier_id' => $this->suppliers->first()->id,
-        'price' => "100.00",
-        'quantity' => 10,
+        'purchase_price' => "100.00",
+        'sale_price' => "102.00",
         'description' => 'test description',
         'image' => $fakeImage, // Attach the fake image here
     ]);
@@ -86,8 +86,8 @@ test('it can update a product', function () {
         'sku' => 'TEST-SKU-001',
         'category_id' => $this->categories->first()->id,
         'supplier_id' => $this->suppliers->first()->id,
-        'price' => "9.90",
-        'quantity' => 5,
+        'purchase_price' => "9.90",
+        'sale_price' => "11.90",
         'description' => 'test description 2',
         'image' => $fakeImage,
     ]);
@@ -98,8 +98,8 @@ test('it can update a product', function () {
     $this->assertDatabaseHas('products', [
         'title' => 'Test Product 001',
         'sku' => 'TEST-SKU-001',
-        'price' => "9.90",
-        'quantity' => 5,
+        'purchase_price' => "9.90",
+        'sale_price' => "11.90",
         'description' => 'test description 2',
     ]);
 
