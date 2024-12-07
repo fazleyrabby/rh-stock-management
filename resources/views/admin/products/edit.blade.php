@@ -59,9 +59,10 @@
                                         @enderror
                                     </small>
                                     <div>Previous Image:</div>
+                                    @if(isset($product->image) && filled($product->image))
                                     <img width="100" src="{{ asset($product->image) }}" alt="">
+                                    @endif
                                 </div>
-                                
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-3 col-form-label required">Product Sku</label>

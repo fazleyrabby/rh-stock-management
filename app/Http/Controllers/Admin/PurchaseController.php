@@ -22,7 +22,7 @@ class PurchaseController extends Controller
 
     public function create()
     {
-        $products = Product::pluck('title', 'id');
+        $products = Product::toBase()->select('title', 'id','purchase_price','sale_price')->get();
         $suppliers = Supplier::pluck('name', 'id');
         return view('admin.purchases.create', compact('products','suppliers'));
     }
@@ -48,7 +48,7 @@ class PurchaseController extends Controller
 
     public function edit(Purchase $purchase)
     {
-        $products = Product::pluck('title', 'id');
+        $products = Product::toBase()->select('title', 'id','purchase_price','sale_price')->get();
         $suppliers = Supplier::pluck('name', 'id');
         return view('admin.purchases.edit', compact('products','suppliers','purchase'));
     }
