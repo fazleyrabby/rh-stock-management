@@ -60,6 +60,7 @@
                                         <tr>
                                             <th>Product</th>
                                             <th>Quantity</th>
+                                            <th>Sale Price</th>
                                             <th>Price</th>
                                             <th>
                                                 <button type="button" id="add-row" class="btn btn-success">Add Row</button>
@@ -69,14 +70,17 @@
                                     <tbody id="products-table">
                                         <tr>
                                             <td>
-                                                <select type="text" class="form-select" id="product" name="products[0][product_id]" value="">
-                                                    @foreach ($products as $index => $value)
-                                                        <option value="{{ $index }}">{{ $value }}</option>
+                                                <select type="text" class="form-select product" id="product" name="products[0][product_id]" value="">
+                                                    <option value="" selected disabled>Select Product</option>
+                                                    @foreach ($products as $product)
+                                                        <option value="{{ $product->id }}"
+                                                            data-sale-price="{{ $product->sale_price }}" data-purchase-price="{{ $product->purchase_price }}">{{ $product->title }}</option>
                                                     @endforeach
                                                 </select>
                                             </td>
-                                            <td><input type="number" class="form-control" name="products[0][quantity]"></td>
-                                            <td><input type="text" class="form-control"  name="products[0][price]"></td>
+                                            <td><input type="number" class="form-control quantity" name="products[0][quantity]"></td>
+                                            <td><input type="number" class="form-control sale_price" readonly disabled></td>
+                                            <td><input type="text" class="form-control product_price"  name="products[0][price]"></td>
                                             <td><button type="button" class="btn btn-danger remove-row">Remove</button></td>
                                         </tr>
                                     </tbody>
@@ -114,19 +118,56 @@
         const newRow = `
             <tr>
                 <td>
-                    <select class="form-select" name="products[${rowCount}][product_id]">
-                        @foreach ($products as $index => $value)
-                            <option value="{{ $index }}">{{ $value }}</option>
+                    <select class="form-select product" name="products[${rowCount}][product_id]">
+                        <option value="" selected disabled>Select Product</option>
+                         @foreach ($products as $product)
+                            <option value="{{ $product->id }}" data-sale-price="{{ $product->sale_price }}" data-purchase-price="{{ $product->purchase_price }}">{{ $product->title }}</option>
                         @endforeach
                     </select>
                 </td>
-                <td><input type="number" class="form-control" name="products[${rowCount}][quantity]"></td>
-                <td><input type="text" class="form-control" name="products[${rowCount}][price]"></td>
+                <td><input type="number" class="form-control quantity" name="products[${rowCount}][quantity]"></td>
+                <td><input type="number" class="form-control sale_price" readonly disabled></td>
+                
+                <td><input type="text" class="form-control product_price" name="products[${rowCount}][price]"></td>
                 <td><button type="button" class="btn btn-danger remove-row">Remove</button></td>
             </tr>`;
         table.insertAdjacentHTML('beforeend', newRow);
     });
 
+    document.getElementById('products-table').addEventListener('input', function (event) {
+        const table = document.getElementById('products-table');
+        // Check if the event is from a quantity input or product select
+        if (event.target.classList.contains('quantity') || event.target.classList.contains('product')) {
+            const target = event.target; // The element that triggered the event
+            const row = target.closest('tr'); // The row containing the inputs
+            const quantityInput = row.querySelector('.quantity'); // Quantity input field
+            const priceInput = row.querySelector('.product_price'); // Price input field
+            const priceSelect = row.querySelector('.product'); // Product select element
+            const saleInput = row.querySelector('.sale_price'); 
+            priceInput.value = 0;
+            saleInput.value = 0;
+
+            // Get selected option and purchase price
+            const selectedOption = priceSelect.options[priceSelect.selectedIndex];
+            const purchasePrice = selectedOption?.getAttribute('data-purchase-price') || 0;
+            const salePrice = selectedOption?.getAttribute('data-sale-price') || 0;
+            saleInput.value = parseFloat(salePrice).toFixed(2);
+            
+            // Update the price input with purchase price if a product is selected
+            if (target.classList.contains('product') && purchasePrice) {
+                priceInput.value = parseFloat(purchasePrice).toFixed(2);
+            }
+
+            // Calculate the total price if quantity is provided
+            const quantity = parseFloat(quantityInput.value) || 0;
+            const price = parseFloat(purchasePrice) || 0;
+
+            if (quantity > 0 && price > 0) {
+                priceInput.value = (quantity * price).toFixed(2);
+                saleInput.value = (quantity * saleInput.value).toFixed(2)
+            }
+        }
+    });
     // Delegate event listener for dynamically added rows
     document.getElementById('products-table').addEventListener('click', function (e) {
         if (e.target.classList.contains('remove-row')) {

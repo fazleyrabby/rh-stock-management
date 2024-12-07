@@ -22,7 +22,7 @@ if (!function_exists('setPaginationMetaData')) {
 
 
 function getDummyProducts(){
-    return [
+    $data = [
         [
             "title" => "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
             "price" => 109.95,
@@ -344,5 +344,12 @@ function getDummyProducts(){
             "description" => "Track your health metrics with this smart scale that syncs with your phone.",
         ]
     ];
+
+    return array_map(function($product){
+        $product['purchase_price'] = $product['price'];
+        $product['sale_price'] = $product['purchase_price'] + 2;
+        unset($product['price']);
+        return $product;
+    }, $data);
 }
 

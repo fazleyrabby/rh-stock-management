@@ -59,9 +59,10 @@
                                         @enderror
                                     </small>
                                     <div>Previous Image:</div>
+                                    @if(isset($product->image) && filled($product->image))
                                     <img width="100" src="{{ asset($product->image) }}" alt="">
+                                    @endif
                                 </div>
-                                
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-3 col-form-label required">Product Sku</label>
@@ -76,13 +77,22 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-3 col-form-label required">Price</label>
+                                <label class="col-3 col-form-label required">Purchase Price</label>
                                 <div class="col">
-                                    <input type="text" class="form-control" name="price" placeholder="price" value="{{ $product->price }}">
+                                    <input type="text" class="form-control" name="purchase_price" placeholder="purchase_price" value="{{ $product->purchase_price }}">
                                     <small class="form-hint">
                                     </small>
                                 </div>
                             </div>
+                            <div class="mb-3 row">
+                                <label class="col-3 col-form-label required">Sale Price</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" name="sale_price" placeholder="sale_price" value="{{ $product->sale_price }}">
+                                    <small class="form-hint">
+                                    </small>
+                                </div>
+                            </div>
+                            
                             <div class="mb-3 row">
                                 <label class="col-3 col-form-label required">Category</label>
                                 <div class="col">
