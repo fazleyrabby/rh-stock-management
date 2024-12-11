@@ -30,6 +30,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::delete('suppliers/bulk-delete', [SupplierController::class, 'bulkDelete'])->name('suppliers.bulk_delete');
     Route::delete('customers/bulk-delete', [SupplierController::class, 'bulkDelete'])->name('customers.bulk_delete');
     Route::delete('stocks/movement/bulk-delete', [StockMovementController::class, 'bulkDelete'])->name('stocks.movement.bulk_delete');
+    Route::delete('purchases/bulk-delete', [PurchaseController::class, 'bulkDelete'])->name('purchases.bulk_delete');
 
     // Resource Routes
     Route::resource('products', ProductController::class)->names('products');

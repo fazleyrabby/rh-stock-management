@@ -7,9 +7,11 @@ use App\Http\Requests\PurchaseRequest;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
+use App\Services\CommonBusinessService;
 use App\Services\PurchaseService;
 use App\Services\StockService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PurchaseController extends Controller
 {
@@ -29,7 +31,7 @@ class PurchaseController extends Controller
 
     public function show($id)
     {
-        $purchase = Purchase::with('purchaseProducts.product:title,price,id','supplier:id,name')->find($id);
+        $purchase = Purchase::with('purchaseProducts.product:title,purchase_price,id','supplier:id,name')->find($id);
         return view('admin.purchases.show', compact('purchase'));
     }
 
@@ -42,6 +44,7 @@ class PurchaseController extends Controller
         } catch (\Exception $e) {
             $type = 'error';
             $message = 'Failed to create purchase!';
+            Log::error('Error occurred while creating a purchase :'. $e);
         }
         return redirect()->route('admin.purchases.create')->with([$type => $message]);
     }
@@ -62,6 +65,7 @@ class PurchaseController extends Controller
         } catch (\Exception $e) {
             $type = 'error';
             $message = 'Failed to updated purchase!';
+            Log::error('Error occurred while updating a purchase :'. $e);
         }
         return redirect()->route('admin.purchases.index')->with([$type => $message]);
     }
@@ -75,12 +79,25 @@ class PurchaseController extends Controller
             $message = 'Successfully updated!';
         } catch (\Exception $e) {
             $type = 'error';
-            $message = 'Failed to updated purchase!';
+            $message = 'Failed to delete purchase!';
+            Log::error('Error occurred while deleting a purchase :'. $e);
         }
         return redirect()->route('admin.purchases.index')->with([$type => $message]);
-        // $stockMovement = StockMovement::findOrFail($id);
-        // $stockMovement->delete();
-        // return redirect()->route('admin.stocks.movement.index')->with(['success' => 'Successfully deleted!']);
+    }
+
+    public function bulkDelete(Request $request, PurchaseService $purchaseService)
+    {
+        try {
+            $ids = $request->input('ids');
+            $purchaseService->bulkDelete($ids);
+            $type = 'success';
+            $message = 'Successfully updated!';
+        } catch (\Exception $e) {
+            $type = 'error';
+            $message = 'Failed to delete purchase!';
+            Log::error('Error occurred while deleting multiple purchase :'. $e);
+        }
+        return redirect()->route('admin.purchases.index')->with([$type => $message]);
     }
     
 }

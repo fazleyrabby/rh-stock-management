@@ -4,6 +4,15 @@
     <!-- Page header -->
     <div class="page-header d-print-none">
         <div class="container-xl">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <!-- Page pre-title -->
@@ -147,7 +156,7 @@
                         @endforeach
                     </select>
                 </td>
-                <td><input type="number" class="form-control quantity" name="products[${rowCount}][quantity]"></td>
+                <td><input type="number" class="form-control quantity" value="1" name="products[${rowCount}][quantity]"></td>
                 <td><input type="number" class="form-control sale_price" readonly disabled></td>
                 <td><input type="text" class="form-control product_price" name="products[${rowCount}][price]"></td>
                 <td><button type="button" class="btn btn-danger remove-row">Remove</button></td>
