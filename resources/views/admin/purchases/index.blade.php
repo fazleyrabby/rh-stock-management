@@ -27,7 +27,7 @@
                             </svg>
                             Create new purchase
                         </a>
-                        {{-- <button data-route="{{ route('admin.purchases.bulk_delete') }}" type="button" id="bulk-delete-btn" class="btn btn-danger" disabled>Delete Selected</button> --}}
+                        <button data-route="{{ route('admin.purchases.bulk_delete') }}" type="button" id="bulk-delete-btn" class="btn btn-danger" disabled>Delete Selected</button>
                     </div>
                 </div>
             </div>

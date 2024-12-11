@@ -69,6 +69,7 @@ class PurchaseService
         // $data['purchase_number'] = 'PUR-' . now()->format('YmdHis') . '-' . strtoupper(str()->random(10));
         $data['total_amount'] = collect($products)->sum('price');
         // Start a database transaction
+
         DB::beginTransaction();
         try {
             // Find the Purchase
@@ -143,6 +144,45 @@ class PurchaseService
 
             $purchase->purchaseProducts()->delete();
             $purchase->delete();
+
+            // Commit the transaction
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            // Rollback the transaction on error
+            DB::rollBack();
+            Log::error($e);
+            throw $e;
+        }
+    }
+
+    public function bulkDelete($ids)
+    {
+        // Start a database transaction
+        DB::beginTransaction();
+        try {
+            // Retrieve Purchases with their related PurchaseProducts using eager loading
+            $purchases = Purchase::with('purchaseProducts')->whereIn('id', $ids)->get();
+
+            foreach ($purchases as $purchase) {
+                $oldProducts = $purchase->purchaseProducts;
+                // Log stock movement for the deleted products (negative quantity to reverse stock)
+                foreach ($oldProducts as $oldProduct) {
+                    $stockMovements = [
+                        'product_id' => $oldProduct->product_id,
+                        'quantity' => -$oldProduct->quantity,  // Negative to revert the stock
+                        'type' => 'out',                       // Indicates stock reduction
+                        'user_id' => auth()->user()->id,
+                    ];
+                    StockMovement::create($stockMovements);
+                }
+
+                // Delete associated PurchaseProducts
+                $purchase->purchaseProducts()->delete();
+
+                // Delete the Purchase record itself
+                $purchase->delete();
+            }
 
             // Commit the transaction
             DB::commit();

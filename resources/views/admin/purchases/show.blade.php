@@ -36,37 +36,52 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3 row">
-                            <label class="col-3 col-form-label required">Purchase Number</label>
+                            <label class="col-3 col-form-label">Purchase Number</label>
                             <div class="col">
                                 {{ $purchase->purchase_number }}
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label class="col-3 col-form-label required">Amount</label>
+                            <label class="col-3 col-form-label">Amount</label>
                             <div class="col">
                                 {{ $purchase->total_amount }}
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label class="col-3 col-form-label required">Status</label>
+                            <label class="col-3 col-form-label">Status</label>
                             <div class="col">
                                 {{ $purchase->status }}
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label class="col-3 col-form-label required">Product supplier</label>
+                            <label class="col-3 col-form-label">Product supplier</label>
                             <div class="col">
                                 {{ $purchase->supplier->name }}
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label class="col-3 col-form-label required">Purchased Products</label>
+                            <label class="col-3 col-form-label">Purchased Products</label>
                             <div class="col">
-                                <ul>
-                                    @foreach ($purchase->purchaseProducts as $purchaseProduct)
-                                        <li>{{ $purchaseProduct->product->title }} | Price: {{ $purchaseProduct->product->price }}</li>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Quantity</th>
+                                            <th>Single Unit Price</th>
+                                            <th>Total Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="products-table">
+                                    @foreach ($purchase->purchaseProducts as $key => $purchaseProduct)
+                                    <tr>
+                                        <td>{{ $purchaseProduct->quantity }} x {{ $purchaseProduct->product->title }}</td>
+                                        <td>{{ $purchaseProduct->quantity }}</td>
+                                        <td>{{ $purchaseProduct->price / $purchaseProduct->quantity }}</td>
+                                        <td>{{ $purchaseProduct->price }}</td>
+                                    </tr>        
                                     @endforeach
-                                </ul>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         
